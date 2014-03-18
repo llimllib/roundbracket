@@ -1,61 +1,111 @@
-// let's build a tournament tree
-var round = 6;
-var gid = 63;
+function buildtree() {
+  var round = 7;
+  var gid = 127;
 
-var root = {
-  gid: gid--,
-  region: "south-east-west-midwest",
-  round: round--,
-  children: [],
-};
+  var root = {
+    gid: gid--,
+    region: "south-east-west-midwest",
+    round: round--,
+    children: [],
+  };
 
-var roundgames = {6: [root]};
+  var roundgames = {7: [root]};
 
-function region(gid) {
-  if ((gid >= 1 && gid <= 8) || (gid >= 33 && gid <= 36) ||
-      (gid >= 49 && gid <= 50) || (gid == 57)) { return "south"; }
-  if ((gid >= 9 && gid <= 16) || (gid >= 37 && gid <= 40) ||
-      (gid >= 51 && gid <= 52) || (gid == 58)) { return "east"; }
-  if ((gid >= 17 && gid <= 24) || (gid >= 41 && gid <= 44) ||
-      (gid >= 53 && gid <= 54) || (gid == 59)) { return "west"; }
-  if ((gid >= 25 && gid <= 32) || (gid >= 45 && gid <= 48) ||
-      (gid >= 55 && gid <= 56) || (gid == 60)) { return "midwest"; }
-  if (gid == 61) { return "south-east"; }
-  if (gid == 62) { return "west-midwest"; }
-  if (gid == 63) { return "south-east-west-midwest"; }
+  // 1-16: south; 17-32: east; 33-48: west; 49-64: midwest
+  // 65-72: south; 73-80: east; 81-88: west; 89-96; midwest
+  // 97-100: south; 101-104: east; 105-108: west; 109-112: midwest
+  // 113-114: s; 115-116: e; 117-118: w; 119-120: mw
+  // 121: s; 122: e; 123: w; 124: mw
+  // 125: s-e; 126: w-mw
+  // 127: s-e-w-mw
+  function region(gid) {
+    if ((gid >= 1 && gid <= 16) || (gid >= 65 && gid <= 72) ||
+        (gid >= 97 && gid <= 100) ||
+        (gid == 113 || gid == 114 || gid == 121)) { return "south"; }
+    if ((gid >= 17 && gid <= 32) || (gid >= 73 && gid <= 80) ||
+        (gid >= 101 && gid <= 104) ||
+        (gid == 115 || gid == 116 || gid == 122)) { return "east"; }
+    if ((gid >= 33 && gid <= 48) || (gid >= 81 && gid <= 88) ||
+        (gid >= 105 && gid <= 108) ||
+        (gid == 117 || gid == 118 || gid == 123)) { return "west"; }
+    if ((gid >= 49 && gid <= 64) || (gid >= 89 && gid <= 96) ||
+        (gid >= 109 && gid <= 112) ||
+        (gid == 119 || gid == 120 || gid == 124)) { return "west"; }
+    if (gid == 125) { return "south-east"; }
+    if (gid == 126) { return "west-midwest"; }
+    if (gid == 127) { return "south-east-west-midwest"; }
 
-  // raise an error if we fall through
-  throw new Error("undefined region for gid " + gid);
-}
-
-while (round > 0) {
-  roundgames[round] = [];
-  for (var i=0; i < roundgames[round+1].length; i++) {
-    left = {
-      gid: gid,
-      region: region(gid),
-      round: round,
-      children: [],
-    }
-    gid--;
-
-    right = {
-      gid: gid,
-      region: region(gid),
-      round: round,
-      children: [],
-    }
-    gid--;
-
-    roundgames[round+1][i].children.push(left);
-    roundgames[round+1][i].children.push(right);
-    roundgames[round].push(left);
-    roundgames[round].push(right);
+    // raise an error if we fall through
+    throw new Error("undefined region for gid " + gid);
   }
-  round--;
+
+  while (round > 0) {
+    roundgames[round] = [];
+    for (var i=0; i < roundgames[round+1].length; i++) {
+      var left = {
+        gid: gid,
+        region: region(gid),
+        round: round,
+        team: undefined,
+        children: [],
+      }
+      gid--;
+
+      var right = {
+        gid: gid,
+        region: region(gid),
+        round: round,
+        children: [],
+      }
+      gid--;
+
+      roundgames[round+1][i].children.push(left);
+      roundgames[round+1][i].children.push(right);
+      roundgames[round].push(left);
+      roundgames[round].push(right);
+    }
+    round--;
+  }
+
+  d3.json('teams.json', function(error, json) {
+    var order = ['1', '16', '8', '9', '5', '12', '4', '13',
+             '6', '11', '3', '14', '7', '10', '2', '15'];
+    var regions = ["south", "east", "west", "midwest"];
+
+    function findgame(gid) {
+      var found = undefined;
+
+      $.each(roundgames[1], function(i, game) {
+        if (game.gid == gid) {
+          found = game;
+          return false;
+        }
+      });
+
+      if (!found) throw new Error("Unable to find gid " + gid);
+
+      return found;
+    }
+
+    var gid = 1;
+    $.each(regions, function(i, region) {
+      $.each(order, function(j, seed) {
+        var game = findgame(gid);
+        game.team = json[region][seed];
+        console.log(game);
+        gid++;
+      });
+    });
+  });
+
+  //TODO just save this out to json so that we don't have to build the tree every time
+  return root;
 }
 
-var radius = 350, numRounds = 6, segmentWidth = radius / (numRounds + 1);
+var radius = 350,
+    numRounds = 7,
+    segmentWidth = radius / (numRounds + 1),
+    root = buildtree();
 
 var partition = d3.layout.partition()
   .sort(null)
@@ -80,7 +130,8 @@ chart.datum(root).selectAll('g')
   .data(partition.nodes)
   .enter()
   .append('g')
-    .attr("class", "arc");
+    .attr("class", "arc")
+    .attr("id", function(d) { return "game" + d.gid; });
 
 // Segments
 d3.selectAll('.arc')
