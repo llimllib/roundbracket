@@ -1,4 +1,4 @@
-function buildtree() {
+function buildtree(teams) {
   var round = 7;
   var gid = 127;
 
@@ -67,76 +67,84 @@ function buildtree() {
     round--;
   }
 
-  d3.json('teams.json', function(error, json) {
-    var order = ['1', '16', '8', '9', '5', '12', '4', '13',
-             '6', '11', '3', '14', '7', '10', '2', '15'];
-    var regions = ["south", "east", "west", "midwest"];
+  var order = ['1', '16', '8', '9', '5', '12', '4', '13',
+           '6', '11', '3', '14', '7', '10', '2', '15'];
+  var regions = ["south", "east", "west", "midwest"];
 
-    function findgame(gid) {
-      var found = undefined;
+  function findgame(gid) {
+    var found = undefined;
 
-      $.each(roundgames[1], function(i, game) {
-        if (game.gid == gid) {
-          found = game;
-          return false;
-        }
-      });
+    $.each(roundgames[1], function(i, game) {
+      if (game.gid == gid) {
+        found = game;
+        return false;
+      }
+    });
 
-      if (!found) throw new Error("Unable to find gid " + gid);
+    if (!found) throw new Error("Unable to find gid " + gid);
 
-      return found;
-    }
+    return found;
+  }
 
-    var gid = 1;
-    $.each(regions, function(i, region) {
-      $.each(order, function(j, seed) {
-        var game = findgame(gid);
-        game.team = json[region][seed];
-        console.log(game);
-        gid++;
-      });
+  var gid = 1;
+  $.each(regions, function(i, region) {
+    $.each(order, function(j, seed) {
+      var game = findgame(gid);
+      game.team = teams[region][seed];
+      gid++;
     });
   });
 
-  //TODO just save this out to json so that we don't have to build the tree every time
+  //TODO just save this out to json so that we don't build the tree every time
   return root;
 }
 
-var radius = 350,
-    numRounds = 7,
-    segmentWidth = radius / (numRounds + 1),
-    root = buildtree();
+function main(teams) {
+  var radius = 350,
+      numRounds = 7,
+      segmentWidth = radius / (numRounds + 1),
+      root = buildtree(teams);
 
-var partition = d3.layout.partition()
-  .sort(null)
-  .size([2 * Math.PI, radius]) // x maps to angle, y to radius
-  .value(function(d) { return 1; }); //Important!
+  var partition = d3.layout.partition()
+    .sort(null)
+    .size([2 * Math.PI, radius]) // x maps to angle, y to radius
+    .value(function(d) { return 1; }); //Important!
 
-var arc = d3.svg.arc()
-  .startAngle(function(d) { return d.x; })
-  .endAngle(function(d) { return d.x + d.dx; })
-  .innerRadius(function(d) { return d.y; })
-  .outerRadius(function(d) { return d.y + d.dy; });
+  var arc = d3.svg.arc()
+    .startAngle(function(d) { return d.x; })
+    .endAngle(function(d) { return d.x + d.dx; })
+    .innerRadius(function(d) { return d.y; })
+    .outerRadius(function(d) { return d.y + d.dy; });
 
-function trans(x, y) {
-  return 'translate('+x+','+y+')';
+  function trans(x, y) {
+    return 'translate('+x+','+y+')';
+  }
+
+  var xCenter = radius, yCenter = radius;
+  var svg = d3.select('#bracket').append('svg').append('g').attr('transform', trans(xCenter,yCenter));
+
+  var chart = svg.append('g').attr("id", "chart");
+  chart.datum(root).selectAll('g')
+    .data(partition.nodes)
+    .enter()
+    .append('g')
+      .attr("class", "arc")
+      .attr("id", function(d) { return "game" + d.gid; });
+
+  // Segments
+  d3.selectAll('.arc')
+    .append('path')
+    .attr('d', arc)
+    .style("fill", "white")
+    .style("stroke", "black");
+    //.on('mouseover', playerHover);
+
+  d3.selectAll('.arc')
+    .filter(function(d) { return d.team; })
+    .append('text')
+    .text(function(d) { return d.team.name; });
 }
 
-var xCenter = radius, yCenter = radius;
-var svg = d3.select('#bracket').append('svg').append('g').attr('transform', trans(xCenter,yCenter));
-
-var chart = svg.append('g').attr("id", "chart");
-chart.datum(root).selectAll('g')
-  .data(partition.nodes)
-  .enter()
-  .append('g')
-    .attr("class", "arc")
-    .attr("id", function(d) { return "game" + d.gid; });
-
-// Segments
-d3.selectAll('.arc')
-  .append('path')
-  .attr('d', arc)
-  .style("fill", "white")
-  .style("stroke", "black");
-  //.on('mouseover', playerHover);
+queue()
+  .defer(d3.json, 'teams.json')
+  .await(function(err, teams) { main(teams); })
