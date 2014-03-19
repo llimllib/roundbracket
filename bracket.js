@@ -146,44 +146,24 @@ function main(teams) {
     .style("stroke", "black");
   //  //.on('mouseover', playerHover);
 
-  function antilabel(d) {
-    if(d.x === 0 && d.y === 0)
-      return '';
-
-    var t = d.x >= Math.PI ? rotate(-Math.PI) : '';
-    t += trans(-(d.y + 0.5*d.dy), 0);
-    t += rotate(-(d.x + 0.5 * d.dx - Math.PI * 0.5), 0, 0);
-    return t;
+  function antilogo(d) {
+    var bbox = d3.select("#game"+d.gid).node().getBBox();
+    var x = bbox.x + 10 * Math.pow(Math.abs(Math.sin(d.x)), .5);
+    var y = bbox.y + 15 * Math.pow(Math.abs(Math.cos(d.x)), .5);
+    return trans(-x, -y);
   }
 
   arcs.append("clipPath")
     .attr("id", function(d) { return "text-clip-game" + d.gid; })
+    .attr("transform", antilogo)
   .append("use")
     .attr("xlink:href", function(d) { return "#path-game" + d.gid; });
 
   function logo(d) {
-    // get the DOM element from a D3 selection
-    // you could also use "this" inside .each()
-    //var element = selection.node(),
-    //    // use the native SVG interface to get the bounding box
-    //    bbox = element.getBBox();
-    // return the center of the bounding box
     var bbox = d3.select("#game"+d.gid).node().getBBox();
-    var x = bbox.x;
     var x = bbox.x + 10 * Math.pow(Math.abs(Math.sin(d.x)), .5);
-    var y = bbox.y;
     var y = bbox.y + 15 * Math.pow(Math.abs(Math.cos(d.x)), .5);
     if (d.team.name == "Tennessee") console.log(bbox.x, bbox.y, x, y);
-    return trans(x, y);
-
-    if(d.x === 0 && d.y === 0) return '';
-
-    var theta = d.x+d.dx;
-    var r = d.y + (d.dy/2);
-    var x = r * Math.sin(theta);
-    var y = r * Math.cos(theta);
-    var x = -r * Math.sin(2*Math.PI-theta);
-    var y = -r * Math.cos(2*Math.PI-theta);
     return trans(x, y);
   }
 
@@ -197,13 +177,10 @@ function main(teams) {
   logos.filter(function(d) { return d.team; })
     .append("image")
     .attr("xlink:href", function(d) { return "logos/"+d.team.name+".png"; })
-    //.attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
+    .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
     .attr("transform", logo)
     .attr("width", "30")
     .attr("height", "30");
-
-  //d3.select("#logo1")
-  //  .attr("clip-path", "url(#text-clip-game1)");
 }
 
 // DEBUGGING
