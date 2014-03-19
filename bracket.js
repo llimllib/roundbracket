@@ -141,7 +141,6 @@ function main(teams) {
       .attr("class", "arc")
       .attr("id", function(d) { return "game" + d.gid; });
 
-  // Segments
   var arcs = d3.selectAll('.arc');
 
   arcs.append('path')
@@ -149,7 +148,6 @@ function main(teams) {
     .attr("id", function(d) { return "path-game" + d.gid; })
     .style("fill", "white")
     .style("stroke", "black");
-  //  //.on('mouseover', playerHover);
 
   function logo(d) {
     var bbox = d3.select("#game"+d.gid).node().getBBox();
@@ -157,7 +155,6 @@ function main(teams) {
     var y = bbox.y + 20 * Math.pow(Math.abs(Math.cos(d.x)), .5);
     if (d.region == "midwest") {
       x += 6 * Math.pow(Math.abs(Math.sin(d.x)), .5);
-      //y += 5 * Math.pow(Math.abs(Math.cos(d.x)), .5);
     }
 
     return trans(x, y);
@@ -167,7 +164,6 @@ function main(teams) {
     .attr("id", function(d) { return "text-clip-game" + d.gid; })
   .append("use")
     .attr("xlink:href", function(d) { return "#path-game" + d.gid; });
-
 
   logos = chart.datum(root).selectAll('.logo')
     .data(partition.nodes)
@@ -183,18 +179,6 @@ function main(teams) {
     .attr("transform", logo)
     .attr("width", "30")
     .attr("height", "30");
-}
-
-// DEBUGGING
-function t(gid) {
-  return d3.select("#game" + gid).datum().team;
-}
-function g(gid) {
-  return d3.select("#game" + gid);
-}
-function l(gid) {
-  var bbox = d3.select("#game"+gid).node().getBBox();
-  return [bbox.x + 5, bbox.y + 10];
 }
 
 queue()
