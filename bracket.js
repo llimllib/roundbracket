@@ -146,38 +146,35 @@ function main(teams) {
     .style("stroke", "black");
   //  //.on('mouseover', playerHover);
 
-  function antilogo(d) {
+  function logo(d) {
     var bbox = d3.select("#game"+d.gid).node().getBBox();
-    var x = bbox.x + 10 * Math.pow(Math.abs(Math.sin(d.x)), .5);
-    var y = bbox.y + 15 * Math.pow(Math.abs(Math.cos(d.x)), .5);
-    return trans(-x, -y);
+    var x = bbox.x + 15 * Math.pow(Math.abs(Math.sin(d.x)), .5);
+    var y = bbox.y + 20 * Math.pow(Math.abs(Math.cos(d.x)), .5);
+    if (d.region == "midwest") {
+      x += 25 * Math.pow(Math.abs(Math.sin(d.x)), .5);
+      y += 5 * Math.pow(Math.abs(Math.cos(d.x)), .5);
+    }
+
+    return trans(x, y);
   }
 
   arcs.append("clipPath")
     .attr("id", function(d) { return "text-clip-game" + d.gid; })
-    .attr("transform", antilogo)
   .append("use")
     .attr("xlink:href", function(d) { return "#path-game" + d.gid; });
 
-  function logo(d) {
-    var bbox = d3.select("#game"+d.gid).node().getBBox();
-    var x = bbox.x + 10 * Math.pow(Math.abs(Math.sin(d.x)), .5);
-    var y = bbox.y + 15 * Math.pow(Math.abs(Math.cos(d.x)), .5);
-    if (d.team.name == "Tennessee") console.log(bbox.x, bbox.y, x, y);
-    return trans(x, y);
-  }
 
   logos = chart.datum(root).selectAll('.logo')
     .data(partition.nodes)
     .enter()
     .append('g')
       .attr("class", "logo")
+      .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
       .attr("id", function(d) { return "logo" + d.gid; });
 
   logos.filter(function(d) { return d.team; })
     .append("image")
     .attr("xlink:href", function(d) { return "logos/"+d.team.name+".png"; })
-    .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
     .attr("transform", logo)
     .attr("width", "30")
     .attr("height", "30");
