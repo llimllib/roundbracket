@@ -126,7 +126,12 @@ function main(teams) {
   }
 
   var xCenter = radius, yCenter = radius;
-  var svg = d3.select('#bracket').append('svg').append('g').attr('transform', trans(xCenter,yCenter));
+  var svg = d3.select('#bracket')
+              .append('svg')
+              .attr('width', radius*2+25)
+              .attr('height', radius*2+25)
+              .append('g')
+              .attr('transform', trans(xCenter,yCenter));
 
   var chart = svg.append('g').attr("id", "chart");
   chart.datum(root).selectAll('.arc')
