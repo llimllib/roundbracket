@@ -129,7 +129,7 @@ function main(teams) {
   var svg = d3.select('#bracket').append('svg').append('g').attr('transform', trans(xCenter,yCenter));
 
   var chart = svg.append('g').attr("id", "chart");
-  chart.datum(root).selectAll('g')
+  chart.datum(root).selectAll('.arc')
     .data(partition.nodes)
     .enter()
     .append('g')
@@ -162,20 +162,42 @@ function main(teams) {
   .append("use")
     .attr("xlink:href", function(d) { return "#path-game" + d.gid; });
 
+  //function label(d) {
+  //  if(d.x === 0 && d.y === 0)
+  //    return '';
+  //  var t = rotate(d.x + 0.5 * d.dx - Math.PI * 0.5, 0, 0);
+  //  t += trans(d.y + 0.5*d.dy, 0);
+  //  t += d.x >= Math.PI ? rotate(Math.PI) : '';
+  //  return t;
+  //}
+
+  //arcs.filter(function(d) { return d.team; })
+  //  .append('text')
+  //  .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
+  //  .attr("transform", label)
+  //  .text(function(d) { return d.team.name; });
+  //
   function label(d) {
-    if(d.x === 0 && d.y === 0)
-      return '';
-    var t = rotate(d.x + 0.5 * d.dx - Math.PI * 0.5, 0, 0);
-    t += trans(d.y + 0.5*d.dy, 0);
-    t += d.x >= Math.PI ? rotate(Math.PI) : '';
-    return t;
+    if(d.x === 0 && d.y === 0) return '';
+
+    var theta = d.x+d.dx;
+    var r = d.y + (d.dy/2);
+    return trans(r * Math.sin(theta), r * Math.cos(theta));
   }
 
-  arcs.filter(function(d) { return d.team; })
-    .append('text')
-    .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
+  logos = chart.datum(root).selectAll('.logo')
+    .data(partition.nodes)
+    .enter()
+    .append('g')
+      .attr("class", "logo")
+      .attr("id", function(d) { return "logo" + d.gid; });
+
+  logos.filter(function(d) { return d.team; })
+    .append("image")
+    .attr("xlink:href", function(d) { return "logos/"+d.team.name+".png"; })
     .attr("transform", label)
-    .text(function(d) { return d.team.name; });
+    .attr("width", "30")
+    .attr("height", "30");
 }
 
 queue()
