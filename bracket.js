@@ -145,9 +145,7 @@ function main(teams) {
 
   arcs.append('path')
     .attr('d', arc)
-    .attr("id", function(d) { return "path-game" + d.gid; })
-    .style("fill", "white")
-    .style("stroke", "black");
+    .attr("id", function(d) { return "path-game" + d.gid; });
 
   function logo(d) {
     var bbox = d3.select("#game"+d.gid).node().getBBox();
