@@ -143,12 +143,47 @@ function main(teams) {
 
   var arcs = d3.selectAll('.arc');
 
-  arcs.append('path')
-    .attr('d', arc)
-    .attr("id", function(d) { return "path-game" + d.gid; });
+  function hover(team) {
+    if (!team.team) { return; }
+
+    //TODO can't assume this
+    var round = 2;
+    var par = team.parent;
+    while (round < 8) {
+      // sr is "silver round", and is round-1
+      var sr = round-1;
+      var game = d3.select("#game" + par.gid);
+
+      // color the main path
+      game.select("path").style("fill", "rgba(252, 0, 7, .5)");
+
+      var bb = game.node().getBBox();
+      var x = bb.x + bb.width/4;
+      var y = bb.y + bb.height/2;
+      console.log(game, team.team["round" + sr]);
+      game.append("text")
+          .text(team.team["round" + sr])
+          .attr("class", "pcttext")
+          .attr("x", x)
+          .attr("y", y);
+      var par = par.parent;
+      round++;
+    }
+  }
+
+  function clear(team) {
+    d3.selectAll(".arc path").style("fill", "#fff");
+    d3.selectAll(".pcttext").remove()
+  }
+
+  arcs.on('mouseover', function(d) { hover(d); })
+    .on('mouseleave', function(d) { clear(d); })
+    .append('path')
+      .attr('d', arc)
+      .attr("id", function(d) { return "path-game" + d.gid; });
 
   function logo(d) {
-    var bbox = d3.select("#game"+d.gid).node().getBBox();
+    var bbox = d3.select("#game"+d.gid+" path").node().getBBox();
     var x = bbox.x + 15 * Math.pow(Math.abs(Math.sin(d.x)), .5);
     var y = bbox.y + 20 * Math.pow(Math.abs(Math.cos(d.x)), .5);
     if (d.region == "midwest") {
@@ -163,13 +198,10 @@ function main(teams) {
   .append("use")
     .attr("xlink:href", function(d) { return "#path-game" + d.gid; });
 
-  logos = chart.datum(root).selectAll('.logo')
-    .data(partition.nodes)
-    .enter()
-    .append('g')
-      .attr("class", "logo")
-      .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
-      .attr("id", function(d) { return "logo" + d.gid; });
+  logos = arcs.append('g')
+    .attr("class", "logo")
+    .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
+    .attr("id", function(d) { return "logo" + d.gid; });
 
   logos.filter(function(d) { return d.team; })
     .append("image")
