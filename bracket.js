@@ -120,6 +120,11 @@ function main(teams) {
     return 'translate('+x+','+y+')';
   }
 
+  function rotate(a, x, y) {
+    a = a * 180 / Math.PI;
+    return 'rotate('+a+')';
+  }
+
   var xCenter = radius, yCenter = radius;
   var svg = d3.select('#bracket').append('svg').append('g').attr('transform', trans(xCenter,yCenter));
 
@@ -132,16 +137,44 @@ function main(teams) {
       .attr("id", function(d) { return "game" + d.gid; });
 
   // Segments
-  d3.selectAll('.arc')
-    .append('path')
+  var arcs = d3.selectAll('.arc');
+
+  arcs.append('path')
     .attr('d', arc)
+    .attr("id", function(d) { return "path-game" + d.gid; })
     .style("fill", "white")
     .style("stroke", "black");
-    //.on('mouseover', playerHover);
+  //  //.on('mouseover', playerHover);
 
-  d3.selectAll('.arc')
-    .filter(function(d) { return d.team; })
+  function antilabel(d) {
+    if(d.x === 0 && d.y === 0)
+      return '';
+
+    var t = d.x >= Math.PI ? rotate(-Math.PI) : '';
+    t += trans(-(d.y + 0.5*d.dy), 0);
+    t += rotate(-(d.x + 0.5 * d.dx - Math.PI * 0.5), 0, 0);
+    return t;
+  }
+
+  arcs.append("clipPath")
+    .attr("id", function(d) { return "text-clip-game" + d.gid; })
+    .attr("transform", antilabel)
+  .append("use")
+    .attr("xlink:href", function(d) { return "#path-game" + d.gid; });
+
+  function label(d) {
+    if(d.x === 0 && d.y === 0)
+      return '';
+    var t = rotate(d.x + 0.5 * d.dx - Math.PI * 0.5, 0, 0);
+    t += trans(d.y + 0.5*d.dy, 0);
+    t += d.x >= Math.PI ? rotate(Math.PI) : '';
+    return t;
+  }
+
+  arcs.filter(function(d) { return d.team; })
     .append('text')
+    .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
+    .attr("transform", label)
     .text(function(d) { return d.team.name; });
 }
 
