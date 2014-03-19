@@ -143,6 +143,16 @@ function main(teams) {
 
   var arcs = d3.selectAll('.arc');
 
+  var spots = {
+    121: [-104, -104],
+    122: [-104, 104],
+    123: [92, 92],
+    124: [88, -88],
+    125: [-90,0],
+    126: [70,0],
+    127: [-12,0],
+  }
+
   function hover(team) {
     if (!team.team) { return; }
 
@@ -157,12 +167,17 @@ function main(teams) {
       // color the main path
       game.select("path").style("fill", "rgba(252, 0, 7, .5)");
 
-      var bb = game.node().getBBox();
-      var x = bb.x + bb.width/4;
-      var y = bb.y + bb.height/2;
+      if (spots.hasOwnProperty(par.gid)) {
+        var x = spots[par.gid][0];
+        var y = spots[par.gid][1];
+      } else {
+        var bb = game.node().getBBox();
+        var x = bb.x + bb.width/4;
+        var y = bb.y + bb.height/2;
+      }
       console.log(game, team.team["round" + sr]);
       game.append("text")
-          .text(team.team["round" + sr])
+          .text((team.team["round" + sr] * 100).toFixed(0).toString() + "%")
           .attr("class", "pcttext")
           .attr("x", x)
           .attr("y", y);
