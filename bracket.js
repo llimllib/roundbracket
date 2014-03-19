@@ -100,7 +100,7 @@ function buildtree(teams) {
 }
 
 function main(teams) {
-  var radius = 350,
+  var radius = 400,
       numRounds = 7,
       segmentWidth = radius / (numRounds + 1),
       root = buildtree(teams);
@@ -158,31 +158,33 @@ function main(teams) {
 
   arcs.append("clipPath")
     .attr("id", function(d) { return "text-clip-game" + d.gid; })
-    .attr("transform", antilabel)
   .append("use")
     .attr("xlink:href", function(d) { return "#path-game" + d.gid; });
 
-  //function label(d) {
-  //  if(d.x === 0 && d.y === 0)
-  //    return '';
-  //  var t = rotate(d.x + 0.5 * d.dx - Math.PI * 0.5, 0, 0);
-  //  t += trans(d.y + 0.5*d.dy, 0);
-  //  t += d.x >= Math.PI ? rotate(Math.PI) : '';
-  //  return t;
-  //}
+  function logo(d) {
+    // get the DOM element from a D3 selection
+    // you could also use "this" inside .each()
+    //var element = selection.node(),
+    //    // use the native SVG interface to get the bounding box
+    //    bbox = element.getBBox();
+    // return the center of the bounding box
+    var bbox = d3.select("#game"+d.gid).node().getBBox();
+    var x = bbox.x;
+    var x = bbox.x + 10 * Math.pow(Math.abs(Math.sin(d.x)), .5);
+    var y = bbox.y;
+    var y = bbox.y + 15 * Math.pow(Math.abs(Math.cos(d.x)), .5);
+    if (d.team.name == "Tennessee") console.log(bbox.x, bbox.y, x, y);
+    return trans(x, y);
 
-  //arcs.filter(function(d) { return d.team; })
-  //  .append('text')
-  //  .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
-  //  .attr("transform", label)
-  //  .text(function(d) { return d.team.name; });
-  //
-  function label(d) {
     if(d.x === 0 && d.y === 0) return '';
 
     var theta = d.x+d.dx;
     var r = d.y + (d.dy/2);
-    return trans(r * Math.sin(theta), r * Math.cos(theta));
+    var x = r * Math.sin(theta);
+    var y = r * Math.cos(theta);
+    var x = -r * Math.sin(2*Math.PI-theta);
+    var y = -r * Math.cos(2*Math.PI-theta);
+    return trans(x, y);
   }
 
   logos = chart.datum(root).selectAll('.logo')
@@ -195,9 +197,25 @@ function main(teams) {
   logos.filter(function(d) { return d.team; })
     .append("image")
     .attr("xlink:href", function(d) { return "logos/"+d.team.name+".png"; })
-    .attr("transform", label)
+    //.attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
+    .attr("transform", logo)
     .attr("width", "30")
     .attr("height", "30");
+
+  //d3.select("#logo1")
+  //  .attr("clip-path", "url(#text-clip-game1)");
+}
+
+// DEBUGGING
+function t(gid) {
+  return d3.select("#game" + gid).datum().team;
+}
+function g(gid) {
+  return d3.select("#game" + gid);
+}
+function l(gid) {
+  var bbox = d3.select("#game"+gid).node().getBBox();
+  return [bbox.x + 5, bbox.y + 10];
 }
 
 queue()
