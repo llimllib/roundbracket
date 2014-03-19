@@ -30,7 +30,7 @@ function buildtree(teams) {
         (gid == 117 || gid == 118 || gid == 123)) { return "west"; }
     if ((gid >= 49 && gid <= 64) || (gid >= 89 && gid <= 96) ||
         (gid >= 109 && gid <= 112) ||
-        (gid == 119 || gid == 120 || gid == 124)) { return "west"; }
+        (gid == 119 || gid == 120 || gid == 124)) { return "midwest"; }
     if (gid == 125) { return "south-east"; }
     if (gid == 126) { return "west-midwest"; }
     if (gid == 127) { return "south-east-west-midwest"; }
@@ -151,8 +151,8 @@ function main(teams) {
     var x = bbox.x + 15 * Math.pow(Math.abs(Math.sin(d.x)), .5);
     var y = bbox.y + 20 * Math.pow(Math.abs(Math.cos(d.x)), .5);
     if (d.region == "midwest") {
-      x += 25 * Math.pow(Math.abs(Math.sin(d.x)), .5);
-      y += 5 * Math.pow(Math.abs(Math.cos(d.x)), .5);
+      x += 6 * Math.pow(Math.abs(Math.sin(d.x)), .5);
+      //y += 5 * Math.pow(Math.abs(Math.cos(d.x)), .5);
     }
 
     return trans(x, y);
