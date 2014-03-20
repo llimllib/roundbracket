@@ -199,8 +199,11 @@ function main(teams) {
         var y = bb.y + bb.height/2;
       }
 
+      var pct = (game.team[sr] * 100).toFixed(0);
+      if (pct < 1) { pct = "<1"; }
+      else         { pct = pct.toString(); }
       gameg.append("text")
-          .text((game.team[sr] * 100).toFixed(0).toString() + "%")
+          .text(pct + "%")
           .attr("class", "pcttext")
           .attr("fill", calcTextcolor(game.team.color, alpha))
           .attr("x", x)
