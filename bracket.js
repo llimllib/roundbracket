@@ -1,7 +1,3 @@
-//include rgbaster
-/*!  rgbaster - https://github.com/briangonzalez/rgbaster.js - 14-01-2014 */
-!function(a){"use strict";var b=function(){return document.createElement("canvas").getContext("2d")},c=function(a,c){var d=new Image,e=a.src||a;"data:"!==e.substring(0,5)&&(d.crossOrigin="Anonymous"),d.onload=function(){var a=b();a.drawImage(d,0,0);var e=a.getImageData(0,0,d.width,d.height);c&&c(e.data)},d.src=e},d=function(a){return["rgb(",a,")"].join("")},e=function(a){return a.map(function(a){return d(a.name)})},f=5,g=10,h={};h.colors=function(a,b,h){c(a,function(a){for(var c=a.length,i={},j="",k=[],l={dominant:{name:"",count:0},palette:Array.apply(null,Array(h||g)).map(Boolean).map(function(){return{name:"0,0,0",count:0}})},m=0;c>m;){if(k[0]=a[m],k[1]=a[m+1],k[2]=a[m+2],j=k.join(","),i[j]=j in i?i[j]+1:1,"0,0,0"!==j&&"255,255,255"!==j){var n=i[j];n>l.dominant.count?(l.dominant.name=j,l.dominant.count=n):l.palette.some(function(a){return n>a.count?(a.name=j,a.count=n,!0):void 0})}m+=4*f}b&&b({dominant:d(l.dominant.name),palette:e(l.palette)})})},a.RGBaster=a.RGBaster||h}(window);
-
 function buildtree(teams) {
   var round = 7;
   var gid = 127;
@@ -159,61 +155,72 @@ function main(teams) {
     127: [-12,0],
   }
 
-  function hover(team) {
-    if (!team.team) { return; }
+  function fillpath(game) {
+    //TODO can't assume this
+    var round = 2;
+    var par = game.parent;
+    while (round < 8) {
+      // sr is "silver round", and is round-1
+      var sr = round-1;
+      var gameg = d3.select("#game" + par.gid);
 
-    //grab the dominate color with RGBaster
-    var colors = RGBaster.colors("logos/"+team.team.name+".png", function(payload){
+      // color the main path
+      gameg.select("path").style("fill", game.team.color.fillcolor);
 
+      if (spots.hasOwnProperty(par.gid)) {
+        var x = spots[par.gid][0];
+        var y = spots[par.gid][1];
+      } else {
+        var bb = gameg.node().getBBox();
+        var x = bb.x + bb.width/4;
+        var y = bb.y + bb.height/2;
+      }
+      gameg.append("text")
+          .text((game.team["round" + sr] * 100).toFixed(0).toString() + "%")
+          .attr("class", "pcttext")
+          .attr("fill", game.team.color.textcolor)
+          .attr("x", x)
+          .attr("y", y);
+      var par = par.parent;
+      round++;
+    }
+  }
 
+  function getLogoColors(game) {
+    var textcolor = "";
+    var fillcolor = "";
 
-      function determineText (rgbString) {
-          var matchColors = /rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)/;
-          var match = matchColors.exec(rgbString);
-          if (match) {
-            if ((match[1] *0.299 + match[2]*0.587 + match[3]*0.114) > 186) {
-                return "#000";
-            }
-
-            return "#FFF";
-          }
+    RGBaster.colors("logos/"+game.team.name+".png", function(payload) {
+      function calcTextcolor(r,g,b) {
+        if ((r*0.299 + g*0.587 + b*0.114) > 186) {
+          return "#000";
+        }
+        return "#FFF";
       }
 
-      //TODO can't assume this
-      var round = 2;
-      var par = team.parent;
-      while (round < 8) {
-        // sr is "silver round", and is round-1
-        var sr = round-1;
-        var game = d3.select("#game" + par.gid);
+      var colors = payload.dominant.match(/(\d{1,3}),(\d{1,3}),(\d{1,3})/);
+      fillcolor = "rgba("+colors[1]+","+colors[2]+","+colors[3]+",1)";
+      textcolor = calcTextcolor(parseFloat(colors[1]), parseFloat(colors[2]), parseFloat(colors[3]));
 
-        // color the main path
-        game.select("path").style("fill", payload.dominant);
+      game.team.color = {
+        textcolor: textcolor,
+        fillcolor: fillcolor,
+      }
 
-        if (spots.hasOwnProperty(par.gid)) {
-          var x = spots[par.gid][0];
-          var y = spots[par.gid][1];
-        } else {
-          var bb = game.node().getBBox();
-          var x = bb.x + bb.width/4;
-          var y = bb.y + bb.height/2;
-        }
-        console.log(game, team.team["round" + sr]);
-        game.append("text")
-            .text((team.team["round" + sr] * 100).toFixed(0).toString() + "%")
-            .attr("class", "pcttext")
-            .attr("fill",determineText.bind(this, payload.dominant))
-            .attr("x", x)
-            .attr("y", y);
-        var par = par.parent;
-        round++;
-    }
-     
+      fillpath(game);
     });
-     
+  }
 
+  function hover(game) {
+    if (!game.team) { return; }
 
-
+    // If we don't yet know the team's color, parse the logo and save it.
+    // Else, just fill the path with the cached value
+    if (game.team.color === undefined) {
+      getLogoColors(game);
+    } else {
+      fillpath(game);
+    }
   }
 
   function clear(team) {
