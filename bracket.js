@@ -154,8 +154,8 @@ function main(teams) {
     // http://javascriptrules.com/2009/08/05/css-color-brightness-contrast-using-javascript/
     var brightness = color[0]*0.299 + color[1]*0.587 + color[2]*0.114;
     brightness /= alpha;
-    //console.log(color, gray, alpha, gray / alpha);
-    if (brightness > 125) {
+    console.log(color, brightness, alpha);
+    if (brightness > 125 || alpha < 0.15) {
       return "#000"; //black
     }
     return "#FFF"; //white
