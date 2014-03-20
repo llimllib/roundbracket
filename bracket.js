@@ -184,8 +184,8 @@ function main(teams) {
 
   function fillpath(game) {
     var par = game.parent;
-    for (var round=2; round < 8; round++) {
-      var sr = "round"+(round-1);
+    for (var round=game.round; round < 7; round++) {
+      var sr = "round"+round;
       var gameg = d3.select("#game" + par.gid);
       if (gameg.datum().team) { par = par.parent; continue; }
       console.log("round ", round);
@@ -207,7 +207,7 @@ function main(teams) {
       var pct = (game.team[sr] * 100);
       if (pct > 1)      { pct = pct.toFixed(0).toString() + "%"; }
       else if (pct > 0) { pct = "<1%"; }
-      else              { pct = "0%"; }
+      else              { pct = ""; }
       gameg.append("text")
           .text(pct)
           .attr("class", "pcttext")
