@@ -1,11 +1,11 @@
 region,seed,team,alive,round1,round2,round3,round4,round5,round6
-Midwest,4,Louisville,√,93%,78%,54%,38%,23%,15%
+Midwest,4,Louisville,√,93%,78%,54%,38%,24%,15%
 South,1,Florida,√,99%,78%,58%,39%,25%,14%
 West,1,Arizona,√,98%,73%,58%,40%,22%,13%
 South,2,Kansas,√,92%,67%,43%,22%,13%,6%
 East,4,Michigan State,√,91%,70%,41%,25%,13%,6%
 East,1,Virginia,√,96%,71%,39%,23%,12%,6%
-West,2,Wisconsin,√,√,82%,50%,23%,11%,6%
+West,2,Wisconsin,√,√,77%,48%,22%,11%,6%
 Midwest,1,Wichita State,√,98%,59%,24%,14%,8%,4%
 Midwest,3,Duke,√,93%,68%,42%,17%,9%,4%
 East,2,Villanova,√,95%,64%,41%,21%,9%,4%
@@ -20,13 +20,13 @@ West,9,Oklahoma State,√,52%,14%,9%,4%,2%,1%
 Midwest,11b,Tennessee,√,71%,24%,13%,4%,2%,<1%
 East,6,North Carolina,√,68%,36%,16%,6%,2%,<1%
 South,5,Virginia Commonwealth,√,76%,29%,10%,5%,2%,<1%
-West,6,Baylor,√,70%,34%,12%,4%,2%,<1%
+West,6,Baylor,√,70%,34%,12%,4%,1%,<1%
 East,7,Connecticut,√,67%,26%,14%,6%,2%,<1%
 West,4,San Diego State,√,75%,43%,14%,7%,2%,<1%
+West,7,Oregon,√,√,23%,12%,5%,2%,<1%
 South,7,New Mexico,√,64%,22%,10%,3%,1%,<1%
 West,8,Gonzaga,√,48%,13%,8%,4%,1%,<1%
 West,5,Oklahoma,√,64%,33%,8%,3%,1%,<1%
-West,7,Oregon,√,65%,14%,7%,3%,<1%,<1%
 East,8,Memphis,√,55%,17%,6%,2%,<1%,<1%
 East,12,Harvard,√,√,27%,10%,4%,1%,<1%
 Midwest,5,Saint Louis,√,58%,12%,4%,2%,<1%,<1%
@@ -40,7 +40,6 @@ Midwest,9,Kansas State,√,26%,7%,1%,<1%,<1%,<1%
 East,10,Saint Joseph's,√,33%,8%,3%,<1%,<1%,<1%
 West,11,Nebraska,√,30%,9%,2%,<1%,<1%,<1%
 Midwest,12a,North Carolina State,√,42%,7%,2%,<1%,<1%,<1%
-West,10,Brigham Young,√,35%,4%,2%,<1%,<1%,<1%
 Midwest,6,Massachusetts,√,29%,6%,2%,<1%,<1%,<1%
 West,12,North Dakota State,√,36%,15%,2%,<1%,<1%,<1%
 South,13,Tulsa,√,13%,4%,<1%,<1%,<1%,<1%
@@ -58,12 +57,13 @@ Midwest,15,Wofford,√,5%,1%,<1%,<1%,<1%,<1%
 South,16a,Albany,√,1%,<1%,<1%,<1%,<1%,<1%
 East,16,Coastal Carolina,√,4%,<1%,<1%,<1%,<1%,<1%
 Midwest,16a,Cal Poly,√,2%,<1%,<1%,<1%,<1%,<1%
+South,16b,Mount St. Mary's,–,–,–,–,–,–,–
+Midwest,11a,Iowa,–,–,–,–,–,–,–
 South,6,Ohio State,√,–,–,–,–,–,–
-West,15,American University,√,–,–,–,–,–,–
 Midwest,16b,Texas Southern,–,–,–,–,–,–,–
 South,8,Colorado,√,–,–,–,–,–,–
 East,5,Cincinnati,√,–,–,–,–,–,–
 South,14,Western Michigan,√,–,–,–,–,–,–
-South,16b,Mount St. Mary's,–,–,–,–,–,–,–
-Midwest,11a,Iowa,–,–,–,–,–,–,–
+West,10,Brigham Young,√,–,–,–,–,–,–
 Midwest,12b,Xavier,–,–,–,–,–,–,–
+West,15,American University,√,–,–,–,–,–,–
