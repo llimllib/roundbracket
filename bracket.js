@@ -133,6 +133,7 @@ function main(teams) {
               .attr('width', radius*2+25)
               .attr('height', radius*2+25)
               .append('g')
+              .attr("id", "center")
               .attr('transform', trans(xCenter,yCenter));
 
   var chart = svg.append('g').attr("id", "chart");
@@ -231,11 +232,21 @@ function main(teams) {
     } else {
       fillpath(game);
     }
+
+    d3.select("#center")
+      .append("text")
+      .attr("x", 0)
+      .attr("y", -20)
+      .attr("text-anchor", "middle")
+      .style("fill", "#666")
+      .attr("id", "teamname")
+      .text(game.team.name);
   }
 
   function clear(team) {
     d3.selectAll(".arc path").style("fill", "#fff");
-    d3.selectAll(".pcttext").remove()
+    d3.selectAll(".pcttext").remove();
+    d3.selectAll("#teamname").remove();
   }
 
   arcs.on('mouseenter', function(d) { hover(d); })
