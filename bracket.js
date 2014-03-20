@@ -116,8 +116,6 @@ function main(teams) {
     .innerRadius(function(d) { return d.y; })
     .outerRadius(function(d) { return d.y + d.dy; });
 
-
-
   function trans(x, y) {
     return 'translate('+x+','+y+')';
   }
@@ -130,11 +128,11 @@ function main(teams) {
   var xCenter = radius, yCenter = radius;
   var svg = d3.select('#bracket')
               .append('svg')
-              .attr('width', radius*2+25)
-              .attr('height', radius*2+25)
+                .attr('width', radius*2+25)
+                .attr('height', radius*2+25)
               .append('g')
-              .attr("id", "center")
-              .attr('transform', trans(xCenter,yCenter));
+                .attr("id", "center")
+                .attr('transform', trans(xCenter,yCenter));
 
   var chart = svg.append('g').attr("id", "chart");
   chart.datum(root).selectAll('.arc')
@@ -282,8 +280,6 @@ function main(teams) {
     .attr("transform", logo)
     .attr("width", "30")
     .attr("height", "30");
-
-
 }
 
 queue()
