@@ -205,11 +205,13 @@ function main(teams) {
         var y = bb.y + bb.height/2;
       }
 
-      var pct = (game.team[sr] * 100).toFixed(0);
-      if (pct < 1) { pct = "<1"; }
-      else         { pct = pct.toString(); }
+      var pct = (game.team[sr] * 100);
+      console.log(pct, pct < 1, pct > 0);
+      if (pct > 1)      { pct = pct.toFixed(0).toString() + "%"; }
+      else if (pct > 0) { pct = "<1%"; }
+      else              { pct = "0%"; }
       gameg.append("text")
-          .text(pct + "%")
+          .text(pct)
           .attr("class", "pcttext")
           .attr("fill", calcTextcolor(game.team.color, alpha))
           .attr("text-anchor", "middle")
