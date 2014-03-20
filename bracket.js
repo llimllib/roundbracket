@@ -164,6 +164,7 @@ function main(teams) {
   var spots = {
     117: [65, 185],
     118: [165, 95],
+    119: [168, -70],
     121: [-104, -104],
     122: [-104, 104],
     123: [92, 92],
@@ -233,7 +234,7 @@ function main(teams) {
     d3.selectAll(".pcttext").remove()
   }
 
-  arcs.on('mouseover', function(d) { hover(d); })
+  arcs.on('mouseenter', function(d) { hover(d); })
     .on('mouseleave', function(d) { clear(d); })
     .append('path')
       .attr('d', arc)
