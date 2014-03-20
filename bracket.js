@@ -27,10 +27,10 @@ function buildtree(teams) {
         (gid == 115 || gid == 116 || gid == 122)) { return "east"; }
     if ((gid >= 33 && gid <= 48) || (gid >= 81 && gid <= 88) ||
         (gid >= 105 && gid <= 108) ||
-        (gid == 117 || gid == 118 || gid == 123)) { return "west"; }
+        (gid == 117 || gid == 118 || gid == 123)) { return "midwest"; }
     if ((gid >= 49 && gid <= 64) || (gid >= 89 && gid <= 96) ||
         (gid >= 109 && gid <= 112) ||
-        (gid == 119 || gid == 120 || gid == 124)) { return "midwest"; }
+        (gid == 119 || gid == 120 || gid == 124)) { return "west"; }
     if (gid == 125) { return "south-east"; }
     if (gid == 126) { return "west-midwest"; }
     if (gid == 127) { return "south-east-west-midwest"; }
@@ -46,7 +46,6 @@ function buildtree(teams) {
         gid: gid,
         region: region(gid),
         round: round,
-        team: undefined,
         children: [],
       }
       gid--;
@@ -101,7 +100,6 @@ function buildtree(teams) {
     });
   });
 
-  //TODO just save this out to json so that we don't build the tree every time
   return root;
 }
 
@@ -206,7 +204,6 @@ function main(teams) {
       }
 
       var pct = (game.team[sr] * 100);
-      console.log(pct, pct < 1, pct > 0);
       if (pct > 1)      { pct = pct.toFixed(0).toString() + "%"; }
       else if (pct > 0) { pct = "<1%"; }
       else              { pct = "0%"; }
