@@ -1,3 +1,7 @@
+//include rgbaster
+/*!  rgbaster - https://github.com/briangonzalez/rgbaster.js - 14-01-2014 */
+!function(a){"use strict";var b=function(){return document.createElement("canvas").getContext("2d")},c=function(a,c){var d=new Image,e=a.src||a;"data:"!==e.substring(0,5)&&(d.crossOrigin="Anonymous"),d.onload=function(){var a=b();a.drawImage(d,0,0);var e=a.getImageData(0,0,d.width,d.height);c&&c(e.data)},d.src=e},d=function(a){return["rgb(",a,")"].join("")},e=function(a){return a.map(function(a){return d(a.name)})},f=5,g=10,h={};h.colors=function(a,b,h){c(a,function(a){for(var c=a.length,i={},j="",k=[],l={dominant:{name:"",count:0},palette:Array.apply(null,Array(h||g)).map(Boolean).map(function(){return{name:"0,0,0",count:0}})},m=0;c>m;){if(k[0]=a[m],k[1]=a[m+1],k[2]=a[m+2],j=k.join(","),i[j]=j in i?i[j]+1:1,"0,0,0"!==j&&"255,255,255"!==j){var n=i[j];n>l.dominant.count?(l.dominant.name=j,l.dominant.count=n):l.palette.some(function(a){return n>a.count?(a.name=j,a.count=n,!0):void 0})}m+=4*f}b&&b({dominant:d(l.dominant.name),palette:e(l.palette)})})},a.RGBaster=a.RGBaster||h}(window);
+
 function buildtree(teams) {
   var round = 7;
   var gid = 127;
@@ -116,6 +120,8 @@ function main(teams) {
     .innerRadius(function(d) { return d.y; })
     .outerRadius(function(d) { return d.y + d.dy; });
 
+
+
   function trans(x, y) {
     return 'translate('+x+','+y+')';
   }
@@ -156,34 +162,58 @@ function main(teams) {
   function hover(team) {
     if (!team.team) { return; }
 
-    //TODO can't assume this
-    var round = 2;
-    var par = team.parent;
-    while (round < 8) {
-      // sr is "silver round", and is round-1
-      var sr = round-1;
-      var game = d3.select("#game" + par.gid);
+    //grab the dominate color with RGBaster
+    var colors = RGBaster.colors("logos/"+team.team.name+".png", function(payload){
 
-      // color the main path
-      game.select("path").style("fill", "rgba(252, 0, 7, .5)");
 
-      if (spots.hasOwnProperty(par.gid)) {
-        var x = spots[par.gid][0];
-        var y = spots[par.gid][1];
-      } else {
-        var bb = game.node().getBBox();
-        var x = bb.x + bb.width/4;
-        var y = bb.y + bb.height/2;
+
+      function determineText (rgbString) {
+          var matchColors = /rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)/;
+          var match = matchColors.exec(rgbString);
+          if (match) {
+            if ((match[1] *0.299 + match[2]*0.587 + match[3]*0.114) > 186) {
+                return "#000";
+            }
+
+            return "#FFF";
+          }
       }
-      console.log(game, team.team["round" + sr]);
-      game.append("text")
-          .text((team.team["round" + sr] * 100).toFixed(0).toString() + "%")
-          .attr("class", "pcttext")
-          .attr("x", x)
-          .attr("y", y);
-      var par = par.parent;
-      round++;
+
+      //TODO can't assume this
+      var round = 2;
+      var par = team.parent;
+      while (round < 8) {
+        // sr is "silver round", and is round-1
+        var sr = round-1;
+        var game = d3.select("#game" + par.gid);
+
+        // color the main path
+        game.select("path").style("fill", payload.dominant);
+
+        if (spots.hasOwnProperty(par.gid)) {
+          var x = spots[par.gid][0];
+          var y = spots[par.gid][1];
+        } else {
+          var bb = game.node().getBBox();
+          var x = bb.x + bb.width/4;
+          var y = bb.y + bb.height/2;
+        }
+        console.log(game, team.team["round" + sr]);
+        game.append("text")
+            .text((team.team["round" + sr] * 100).toFixed(0).toString() + "%")
+            .attr("class", "pcttext")
+            .attr("fill",determineText.bind(this, payload.dominant))
+            .attr("x", x)
+            .attr("y", y);
+        var par = par.parent;
+        round++;
     }
+     
+    });
+     
+
+
+
   }
 
   function clear(team) {
@@ -218,12 +248,14 @@ function main(teams) {
     .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
     .attr("id", function(d) { return "logo" + d.gid; });
 
-  logos.filter(function(d) { return d.team; })
+  logos.filter(function(d) {return d.team; })
     .append("image")
     .attr("xlink:href", function(d) { return "logos/"+d.team.name+".png"; })
     .attr("transform", logo)
     .attr("width", "30")
     .attr("height", "30");
+
+
 }
 
 queue()
