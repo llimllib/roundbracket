@@ -155,17 +155,34 @@ function main(teams) {
     127: [-12,0],
   }
 
+  function clamp(n) {
+    if (n>1) { return 1; }
+    return n;
+  }
+
+  function calcTextcolor(color, a) {
+    if ((color[0]*0.299/a + color[1]*0.587/a + color[2]*0.114/a) > 186) {
+      return "#000";
+    }
+    return "#FFF";
+  }
+
+  function rgba(color, alpha) {
+    return "rgba("+color[0]+","+color[1]+","+color[2]+","+alpha+")";
+  }
+
   function fillpath(game) {
     //TODO can't assume this
     var round = 2;
     var par = game.parent;
     while (round < 8) {
-      // sr is "silver round", and is round-1
-      var sr = round-1;
+      var sr = "round"+(round-1);
       var gameg = d3.select("#game" + par.gid);
 
       // color the main path
-      gameg.select("path").style("fill", game.team.color.fillcolor);
+      var alpha = clamp(game.team[sr]*2);
+      var color = rgba(game.team.color, alpha);
+      gameg.select("path").style("fill", color);
 
       if (spots.hasOwnProperty(par.gid)) {
         var x = spots[par.gid][0];
@@ -175,10 +192,11 @@ function main(teams) {
         var x = bb.x + bb.width/4;
         var y = bb.y + bb.height/2;
       }
+
       gameg.append("text")
-          .text((game.team["round" + sr] * 100).toFixed(0).toString() + "%")
+          .text((game.team[sr] * 100).toFixed(0).toString() + "%")
           .attr("class", "pcttext")
-          .attr("fill", game.team.color.textcolor)
+          .attr("fill", calcTextcolor(game.team.color, alpha))
           .attr("x", x)
           .attr("y", y);
       var par = par.parent;
@@ -187,25 +205,10 @@ function main(teams) {
   }
 
   function getLogoColors(game) {
-    var textcolor = "";
-    var fillcolor = "";
-
     RGBaster.colors("logos/"+game.team.name+".png", function(payload) {
-      function calcTextcolor(r,g,b) {
-        if ((r*0.299 + g*0.587 + b*0.114) > 186) {
-          return "#000";
-        }
-        return "#FFF";
-      }
-
       var colors = payload.dominant.match(/(\d{1,3}),(\d{1,3}),(\d{1,3})/);
-      fillcolor = "rgba("+colors[1]+","+colors[2]+","+colors[3]+",1)";
-      textcolor = calcTextcolor(parseFloat(colors[1]), parseFloat(colors[2]), parseFloat(colors[3]));
 
-      game.team.color = {
-        textcolor: textcolor,
-        fillcolor: fillcolor,
-      }
+      game.team.color = [colors[1], colors[2], colors[3]],
 
       fillpath(game);
     });
