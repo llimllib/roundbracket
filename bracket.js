@@ -167,14 +167,14 @@ function main(teams) {
   var spots = {
     117: [65, 185],
     118: [165, 95],
-    119: [168, -70],
+    119: [178, -70],
     121: [-104, -104],
     122: [-104, 104],
-    123: [92, 92],
-    124: [88, -88],
-    125: [-90,0],
-    126: [70,0],
-    127: [-12,0],
+    123: [100, 92],
+    124: [96, -88],
+    125: [-80,0],
+    126: [80,0],
+    127: [0,20],
   }
 
   function fillpath(game) {
@@ -195,7 +195,7 @@ function main(teams) {
         var y = spots[par.gid][1];
       } else {
         var bb = gameg.node().getBBox();
-        var x = bb.x + bb.width/4;
+        var x = bb.x + bb.width/2;
         var y = bb.y + bb.height/2;
       }
 
@@ -206,6 +206,7 @@ function main(teams) {
           .text(pct + "%")
           .attr("class", "pcttext")
           .attr("fill", calcTextcolor(game.team.color, alpha))
+          .attr("text-anchor", "middle")
           .attr("x", x)
           .attr("y", y);
       var par = par.parent;
@@ -237,7 +238,7 @@ function main(teams) {
     d3.select("#center")
       .append("text")
       .attr("x", 0)
-      .attr("y", -20)
+      .attr("y", 0)
       .attr("text-anchor", "middle")
       .style("fill", "#666")
       .attr("id", "teamname")
