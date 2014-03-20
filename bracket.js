@@ -67,9 +67,11 @@ function buildtree(teams) {
     round--;
   }
 
-  var order = ['1', '16', '8', '9', '5', '12', '4', '13',
+  var r_to_l = ['1', '16', '8', '9', '5', '12', '4', '13',
            '6', '11', '3', '14', '7', '10', '2', '15'];
-  var regions = ["south", "east", "west", "midwest"];
+  var l_to_r = ["15", "2", "10", "7", "14", "3", "11", "6",
+           "13", "4", "12", "5", "9", "8", "16", "1"];
+  var regions = ["south", "east", "midwest", "west"];
 
   function findgame(gid) {
     var found = undefined;
@@ -88,6 +90,10 @@ function buildtree(teams) {
 
   var gid = 1;
   $.each(regions, function(i, region) {
+    var order;
+    if (region == "south" || region == "east") { order = r_to_l; }
+    else                                       { order = l_to_r; }
+
     $.each(order, function(j, seed) {
       var game = findgame(gid);
       game.team = teams[region][seed];
