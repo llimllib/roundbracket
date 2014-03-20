@@ -150,11 +150,15 @@ function main(teams) {
     return n;
   }
 
-  function calcTextcolor(color, a) {
-    if ((color[0]*0.299/a + color[1]*0.587/a + color[2]*0.114/a) > 186) {
-      return "#000";
+  function calcTextcolor(color, alpha) {
+    // http://javascriptrules.com/2009/08/05/css-color-brightness-contrast-using-javascript/
+    var brightness = color[0]*0.299 + color[1]*0.587 + color[2]*0.114;
+    brightness /= alpha;
+    //console.log(color, gray, alpha, gray / alpha);
+    if (brightness > 125) {
+      return "#000"; //black
     }
-    return "#FFF";
+    return "#FFF"; //white
   }
 
   function rgba(color, alpha) {
