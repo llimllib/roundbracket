@@ -145,16 +145,6 @@ function main(teams) {
 
   var arcs = d3.selectAll('.arc');
 
-  var spots = {
-    121: [-104, -104],
-    122: [-104, 104],
-    123: [92, 92],
-    124: [88, -88],
-    125: [-90,0],
-    126: [70,0],
-    127: [-12,0],
-  }
-
   function clamp(n) {
     if (n>1) { return 1; }
     return n;
@@ -169,6 +159,18 @@ function main(teams) {
 
   function rgba(color, alpha) {
     return "rgba("+color[0]+","+color[1]+","+color[2]+","+alpha+")";
+  }
+
+  var spots = {
+    117: [65, 185],
+    118: [165, 95],
+    121: [-104, -104],
+    122: [-104, 104],
+    123: [92, 92],
+    124: [88, -88],
+    125: [-90,0],
+    126: [70,0],
+    127: [-12,0],
   }
 
   function fillpath(game) {
