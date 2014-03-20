@@ -107,7 +107,8 @@ function main(teams) {
   var radius = 400,
       numRounds = 7,
       segmentWidth = radius / (numRounds + 1),
-      root = buildtree(teams);
+      root = buildtree(teams)
+      logoheight = 30;
 
   var partition = d3.layout.partition()
     .sort(null)
@@ -182,12 +183,12 @@ function main(teams) {
   }
 
   function fillpath(game) {
-    //TODO can't assume this
-    var round = 2;
     var par = game.parent;
-    while (round < 8) {
+    for (var round=2; round < 8; round++) {
       var sr = "round"+(round-1);
       var gameg = d3.select("#game" + par.gid);
+      if (gameg.datum().team) { par = par.parent; continue; }
+      console.log("round ", round);
 
       // color the main path
       var alpha = clamp(game.team[sr]*2);
@@ -215,7 +216,6 @@ function main(teams) {
           .attr("x", x)
           .attr("y", y);
       var par = par.parent;
-      round++;
     }
   }
 
@@ -263,14 +263,10 @@ function main(teams) {
       .attr("id", function(d) { return "path-game" + d.gid; });
 
   function logo(d) {
-    var bbox = d3.select("#game"+d.gid+" path").node().getBBox();
-    var x = bbox.x + 15 * Math.pow(Math.abs(Math.sin(d.x)), .5);
-    var y = bbox.y + 20 * Math.pow(Math.abs(Math.cos(d.x)), .5);
-    if (d.region == "midwest") {
-      x += 6 * Math.pow(Math.abs(Math.sin(d.x)), .5);
-    }
-
-    return trans(x, y);
+      var bb = d3.select("#game"+d.gid+" path").node().getBBox();
+      var x = bb.x + bb.width/2 - logoheight/2;
+      var y = bb.y + bb.height/2 - logoheight/2;
+      return trans(x, y);
   }
 
   arcs.append("clipPath")
@@ -287,8 +283,27 @@ function main(teams) {
     .append("image")
     .attr("xlink:href", function(d) { return "logos/"+d.team.name+".png"; })
     .attr("transform", logo)
-    .attr("width", "30")
-    .attr("height", "30");
+    .attr("width", logoheight)
+    .attr("height", logoheight);
+
+  for (var i=1; i < 65; i++) {
+    var game = d3.select("#game" + i).datum();
+    if (game.team["round1"] == 1) {
+      var gid = game.parent.gid;
+      var wingame = d3.select("#game" + gid);
+      wingame.datum().team = game.team
+      wingame
+      .append('g')
+        .attr("class", "logo")
+        .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
+        .attr("id", function(d) { return "logo" + d.gid; })
+      .append("image")
+        .attr("xlink:href", function(d) { return "logos/"+d.team.name+".png"; })
+        .attr("transform", logo)
+        .attr("width", logoheight)
+        .attr("height", logoheight);
+    }
+  }
 }
 
 queue()
