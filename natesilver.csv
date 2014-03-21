@@ -1,69 +1,69 @@
 region,seed,team,alive,round1,round2,round3,round4,round5,round6
-Midwest,4,Louisville,√,93%,78%,54%,38%,24%,15%
-South,1,Florida,√,99%,78%,58%,39%,25%,14%
+Midwest,4,Louisville,√,√,82%,55%,38%,23%,14%
 West,1,Arizona,√,98%,73%,58%,40%,22%,13%
-South,2,Kansas,√,92%,67%,43%,22%,13%,6%
-East,4,Michigan State,√,91%,70%,41%,25%,13%,6%
-East,1,Virginia,√,96%,71%,39%,23%,12%,6%
+South,1,Florida,√,√,76%,55%,35%,21%,11%
+East,4,Michigan State,√,√,77%,45%,27%,14%,7%
+South,2,Kansas,√,92%,67%,43%,23%,13%,7%
+East,1,Virginia,√,96%,71%,38%,22%,12%,6%
 West,2,Wisconsin,√,√,77%,48%,22%,11%,6%
-Midwest,1,Wichita State,√,98%,59%,24%,14%,8%,4%
-Midwest,3,Duke,√,93%,68%,42%,17%,9%,4%
-East,2,Villanova,√,95%,64%,41%,21%,9%,4%
-Midwest,2,Michigan,√,95%,74%,37%,14%,6%,3%
+East,2,Villanova,√,√,65%,42%,22%,10%,5%
+Midwest,3,Duke,√,93%,68%,41%,17%,9%,5%
+Midwest,1,Wichita State,√,98%,59%,24%,13%,8%,5%
+Midwest,2,Michigan,√,√,79%,39%,15%,7%,3%
 South,3,Syracuse,√,√,77%,36%,15%,7%,3%
 West,3,Creighton,√,88%,54%,26%,11%,5%,2%
 Midwest,8,Kentucky,√,74%,34%,14%,8%,4%,2%
-South,4,UCLA,√,87%,63%,19%,8%,4%,1%
-East,3,Iowa State,√,81%,46%,20%,8%,3%,1%
-South,9,Pittsburgh,√,√,22%,13%,6%,3%,1%
+South,4,UCLA,√,87%,63%,20%,9%,4%,2%
+South,9,Pittsburgh,√,√,24%,14%,7%,3%,1%
+East,3,Iowa State,√,81%,46%,19%,8%,3%,1%
 West,9,Oklahoma State,√,52%,14%,9%,4%,2%,1%
-Midwest,11b,Tennessee,√,71%,24%,13%,4%,2%,<1%
-East,6,North Carolina,√,68%,36%,16%,6%,2%,<1%
+East,7,Connecticut,√,√,35%,19%,7%,3%,<1%
+Midwest,11b,Tennessee,√,71%,24%,12%,4%,2%,<1%
 South,5,Virginia Commonwealth,√,76%,29%,10%,5%,2%,<1%
-West,6,Baylor,√,70%,34%,12%,4%,1%,<1%
-East,7,Connecticut,√,67%,26%,14%,6%,2%,<1%
-West,4,San Diego State,√,75%,43%,14%,7%,2%,<1%
+East,6,North Carolina,√,68%,36%,15%,6%,2%,<1%
+West,4,San Diego State,√,√,65%,20%,9%,2%,<1%
+West,6,Baylor,√,70%,34%,12%,4%,2%,<1%
 West,7,Oregon,√,√,23%,12%,5%,2%,<1%
-South,7,New Mexico,√,64%,22%,10%,3%,1%,<1%
+South,7,New Mexico,√,64%,22%,10%,4%,2%,<1%
 West,8,Gonzaga,√,48%,13%,8%,4%,1%,<1%
-West,5,Oklahoma,√,64%,33%,8%,3%,1%,<1%
+Midwest,5,Saint Louis,√,√,18%,6%,2%,<1%,<1%
 East,8,Memphis,√,55%,17%,6%,2%,<1%,<1%
-East,12,Harvard,√,√,27%,10%,4%,1%,<1%
-Midwest,5,Saint Louis,√,58%,12%,4%,2%,<1%,<1%
+East,12,Harvard,√,√,23%,8%,3%,<1%,<1%
+Midwest,7,Texas,√,√,21%,5%,<1%,<1%,<1%
 South,11,Dayton,√,√,23%,7%,2%,<1%,<1%
-East,9,George Washington,√,45%,12%,4%,1%,<1%,<1%
-Midwest,7,Texas,√,50%,13%,3%,<1%,<1%,<1%
-East,11,Providence,√,32%,12%,4%,1%,<1%,<1%
+East,9,George Washington,√,45%,12%,3%,1%,<1%,<1%
 South,10,Stanford,√,36%,9%,3%,<1%,<1%,<1%
-Midwest,10,Arizona State,√,50%,12%,3%,<1%,<1%,<1%
+East,11,Providence,√,32%,12%,4%,1%,<1%,<1%
+West,12,North Dakota State,√,√,35%,5%,1%,<1%,<1%
 Midwest,9,Kansas State,√,26%,7%,1%,<1%,<1%,<1%
-East,10,Saint Joseph's,√,33%,8%,3%,<1%,<1%,<1%
 West,11,Nebraska,√,30%,9%,2%,<1%,<1%,<1%
-Midwest,12a,North Carolina State,√,42%,7%,2%,<1%,<1%,<1%
 Midwest,6,Massachusetts,√,29%,6%,2%,<1%,<1%,<1%
-West,12,North Dakota State,√,36%,15%,2%,<1%,<1%,<1%
 South,13,Tulsa,√,13%,4%,<1%,<1%,<1%,<1%
 South,12,Stephen F. Austin,√,24%,4%,<1%,<1%,<1%,<1%
-West,13,New Mexico State,√,25%,9%,1%,<1%,<1%,<1%
-East,14,North Carolina Central,√,19%,5%,1%,<1%,<1%,<1%
-Midwest,13,Manhattan,√,7%,3%,<1%,<1%,<1%,<1%
-East,13,Delaware,√,9%,3%,<1%,<1%,<1%,<1%
+East,14,North Carolina Central,√,19%,5%,<1%,<1%,<1%,<1%
 Midwest,14,Mercer,√,7%,2%,<1%,<1%,<1%,<1%
-West,14,Louisiana-Lafayette,√,12%,3%,<1%,<1%,<1%,<1%
 South,15,Eastern Kentucky,√,8%,2%,<1%,<1%,<1%,<1%
-East,15,Milwaukee,√,5%,<1%,<1%,<1%,<1%,<1%
+West,14,Louisiana-Lafayette,√,12%,3%,<1%,<1%,<1%,<1%
 West,16,Weber State,√,2%,<1%,<1%,<1%,<1%,<1%
-Midwest,15,Wofford,√,5%,1%,<1%,<1%,<1%,<1%
-South,16a,Albany,√,1%,<1%,<1%,<1%,<1%,<1%
 East,16,Coastal Carolina,√,4%,<1%,<1%,<1%,<1%,<1%
 Midwest,16a,Cal Poly,√,2%,<1%,<1%,<1%,<1%,<1%
-South,16b,Mount St. Mary's,–,–,–,–,–,–,–
-Midwest,11a,Iowa,–,–,–,–,–,–,–
-South,6,Ohio State,√,–,–,–,–,–,–
-Midwest,16b,Texas Southern,–,–,–,–,–,–,–
-South,8,Colorado,√,–,–,–,–,–,–
+West,5,Oklahoma,√,–,–,–,–,–,–
+West,13,New Mexico State,√,–,–,–,–,–,–
 East,5,Cincinnati,√,–,–,–,–,–,–
-South,14,Western Michigan,√,–,–,–,–,–,–
-West,10,Brigham Young,√,–,–,–,–,–,–
-Midwest,12b,Xavier,–,–,–,–,–,–,–
+South,8,Colorado,√,–,–,–,–,–,–
+South,16a,Albany,√,–,–,–,–,–,–
+Midwest,11a,Iowa,–,–,–,–,–,–,–
+East,15,Milwaukee,√,–,–,–,–,–,–
+South,16b,Mount St. Mary's,–,–,–,–,–,–,–
+Midwest,16b,Texas Southern,–,–,–,–,–,–,–
+South,6,Ohio State,√,–,–,–,–,–,–
 West,15,American University,√,–,–,–,–,–,–
+Midwest,13,Manhattan,√,–,–,–,–,–,–
+South,14,Western Michigan,√,–,–,–,–,–,–
+East,10,Saint Joseph's,√,–,–,–,–,–,–
+East,13,Delaware,√,–,–,–,–,–,–
+Midwest,12a,North Carolina State,√,–,–,–,–,–,–
+Midwest,15,Wofford,√,–,–,–,–,–,–
+West,10,Brigham Young,√,–,–,–,–,–,–
+Midwest,10,Arizona State,√,–,–,–,–,–,–
+Midwest,12b,Xavier,–,–,–,–,–,–,–
