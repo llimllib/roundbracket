@@ -8,7 +8,11 @@ push:
 	git push -f -u origin gh-pages
 	git checkout master
 
+update:
+	python dl.py
+	python prep.py
+
 lint:
 	jshint bracket.js
 
-.PHONY: serve push
+.PHONY: serve push update lint
