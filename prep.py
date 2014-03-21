@@ -31,32 +31,25 @@ with open("natesilver.csv") as ns:
     rows = csv.reader(ns)
     header = rows.next()
     for row in rows:
-        # parse the percentages
-        for rowi in [4,5,6,7,8,9]:
-            if row[rowi] == "√": row[rowi] = "100%"
-            if row[rowi] == "–": row[rowi] = "0%"
-            pct = row[rowi][:-1]
-            if pct.startswith("<"):
-                row[rowi] = .001
-            else:
-                row[rowi] = float(pct)/100
+        for i in [0,4,5,6,7,8,9,10,11,12]:
+            if row[i] == "--": row[i] == -1
+            else:              row[i] = float(row[i])
+
         teamdata = dict(zip(header, row))
-        teamdata["team"] = natesilver_names.get(teamdata["team"], teamdata["team"])
-        for key in ["round1", "round2", "round3", "round4", "round5", "round6"]:
-            teamdata[key] = float(teamdata[key])
-        natesilver[teamdata["team"]] = teamdata
+        teamdata["team_name"] = natesilver_names.get(teamdata["team_name"], teamdata["team_name"])
+        natesilver[teamdata["team_name"]] = teamdata
 
 def maketeam(name, seed):
     team = natesilver[name]
     team = {
-        "name": team["team"],
+        "name": team["team_name"],
         "seed": seed,
-        "round1": team["round1"],
-        "round2": team["round2"],
-        "round3": team["round3"],
-        "round4": team["round4"],
-        "round5": team["round5"],
-        "round6": team["round6"],
+        "round1": team["rd2_win"], #nate counts the play round as the first
+        "round2": team["rd3_win"], #round, I don't... hence the mismatch
+        "round3": team["rd4_win"],
+        "round4": team["rd5_win"],
+        "round5": team["rd6_win"],
+        "round6": team["rd7_win"],
     }
     return team
 
