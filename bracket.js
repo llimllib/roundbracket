@@ -166,6 +166,8 @@ function main(teams) {
   }
 
   function rgba(color, alpha) {
+    // Very small alpha values mess up webkit
+    if (alpha.toString().indexOf("e") > -1) { alpha = 0; }
     return "rgba("+color[0]+","+color[1]+","+color[2]+","+alpha+")";
   }
 
@@ -255,7 +257,7 @@ function main(teams) {
     d3.selectAll("#teamname").remove();
   }
 
-  arcs.on('mouseenter', function(d) { hover(d); })
+  arcs.on('mouseenter', function(d) { clear(d); hover(d); })
     .on('mouseleave', function(d) { clear(d); })
     .on('touchstart', function(d) { clear(d); hover(d); })
     .append('path')
