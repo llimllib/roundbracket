@@ -1,14 +1,12 @@
+import os, glob
 import requests
 
-n = 22
-url = "https://raw.githubusercontent.com/fivethirtyeight/data/master/march-madness-predictions/bracket-{}.csv"
-resp = requests.get(url.format(n))
-while resp.status_code == 200:
-    lastgood = resp
-    n += 1
-    print n
-    resp = requests.get(url.format(n))
+os.chdir("../fivethirtyeight-data/march-madness-predictions")
+os.system("git pull")
+fname = list(sorted(glob.glob("*.csv")))[-1]
+os.system("cp {} ../../roundbracket/natesilver.csv".format(fname))
+os.chdir("../../roundbracket")
 
 # file comes with windows newlines... replace with unix
-text = lastgood.text.replace('\r', '\n')
+text = file("natesilver.csv", "r").read().replace('\r', '\n')
 open("natesilver.csv", 'w').write(text)
