@@ -257,6 +257,7 @@ function main(teams) {
 
   arcs.on('mouseenter', function(d) { hover(d); })
     .on('mouseleave', function(d) { clear(d); })
+    .on('touchstart', function(d) { clear(d); hover(d); })
     .append('path')
       .attr('d', arc)
       .attr("id", function(d) { return "path-game" + d.gid; });
