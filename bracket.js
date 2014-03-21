@@ -188,7 +188,6 @@ function main(teams) {
       var sr = "round"+round;
       var gameg = d3.select("#game" + par.gid);
       if (gameg.datum().team) { par = par.parent; continue; }
-      console.log("round ", round);
 
       // color the main path
       var alpha = clamp(game.team[sr]*2);
