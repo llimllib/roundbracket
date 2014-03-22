@@ -288,14 +288,13 @@ function main(teams) {
     .attr("width", logoheight)
     .attr("height", logoheight);
 
-  for (var i=1; i < 65; i++) {
+  for (var i=1; i < 127; i++) {
     var game = d3.select("#game" + i).datum();
-    if (game.team["round1"] == 1) {
+    if (game.team && game.team["round" + game.round] == 1) {
       var gid = game.parent.gid;
       var wingame = d3.select("#game" + gid);
       wingame.datum().team = game.team
-      wingame
-      .append('g')
+      wingame.append('g')
         .attr("class", "logo")
         .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
         .attr("id", function(d) { return "logo" + d.gid; })
