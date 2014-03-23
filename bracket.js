@@ -329,13 +329,15 @@ function main(teams) {
     .append("path")
       .attr("d", arcmaker)
       .attr("id", function(d) { return "regionpath-" + d.region; })
-      .attr("class", "regionpath");
+      .attr("class", "regionpath")
+      .attr("style", "display:none");
 
   namearcs.append("text")
     .append("textPath")
       .attr("text-anchor", "middle")
+      .attr("startOffset", "25%")
       .attr("xlink:href","#regionpath-Midwest")
-      .text("bananas and apples and otoos anda alskjflaksdjflaskjdfjkl and something else goes here")
+      .text("West")
 }
 
 queue()
