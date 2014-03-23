@@ -310,6 +310,21 @@ function main(teams) {
         .attr("height", logoheight);
     }
   }
+
+  var arcmaker = d3.svg.arc().innerRadius(radius + 20).outerRadius(radius + 20);
+  var regionarcs = [
+    {region: "West", startAngle: 0, endAngle: Math.PI/2},
+    {region: "Midwest", startAngle: Math.PI/2, endAngle: Math.PI},
+    {region: "East", startAngle: Math.PI, endAngle: 3*Math.PI/2},
+    {region: "South", startAngle: 3*Math.PI/2, endAngle: 0}
+  ];
+
+  d3.select("#center")
+    .data(regionarcs)
+    .enter()
+    .append("path")
+      .attr("d", arcmaker)
+      .attr("id", function(d) { return d.region; })
 }
 
 queue()
