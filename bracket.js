@@ -319,8 +319,11 @@ function main(teams) {
     {region: "South", startAngle: 3*Math.PI/2, endAngle: 0}
   ];
 
-  d3.select("#center")
-    .data(regionarcs)
+  var namearcs = d3.select("#center")
+    .append("g")
+      .attr("id", "namearcs");
+
+  namearcs.data(regionarcs)
     .enter()
     .append("path")
       .attr("d", arcmaker)
