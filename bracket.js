@@ -327,8 +327,15 @@ function main(teams) {
     .data(regionarcs)
     .enter()
     .append("path")
-      .attr("d", function(d) { console.log("entering", d); return arcmaker(d); })
-      .attr("id", function(d) { return d.region; })
+      .attr("d", arcmaker)
+      .attr("id", function(d) { return "regionpath-" + d.region; })
+      .attr("class", "regionpath");
+
+  namearcs.append("text")
+    .append("textPath")
+      .attr("text-anchor", "middle")
+      .attr("xlink:href","#regionpath-Midwest")
+      .text("bananas and apples and otoos anda alskjflaksdjflaskjdfjkl and something else goes here")
 }
 
 queue()
