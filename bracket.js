@@ -47,7 +47,7 @@ function buildtree(teams) {
         region: region(gid),
         round: round,
         children: [],
-      }
+      };
       gid--;
 
       var right = {
@@ -55,7 +55,7 @@ function buildtree(teams) {
         region: region(gid),
         round: round,
         children: [],
-      }
+      };
       gid--;
 
       roundgames[round+1][i].children.push(left);
@@ -73,7 +73,7 @@ function buildtree(teams) {
   var regions = ["south", "east", "midwest", "west"];
 
   function findgame(gid) {
-    var found = undefined;
+    var found;
 
     $.each(roundgames[1], function(i, game) {
       if (game.gid == gid) {
@@ -107,7 +107,7 @@ function main(teams) {
   var radius = 400,
       numRounds = 7,
       segmentWidth = radius / (numRounds + 1),
-      root = buildtree(teams)
+      root = buildtree(teams),
       logoheight = 30;
 
   var partition = d3.layout.partition()
@@ -182,7 +182,7 @@ function main(teams) {
     125: [-80,0],
     126: [80,0],
     127: [0,20],
-  }
+  };
 
   function fillpath(game) {
     var par = game.parent;
@@ -196,13 +196,14 @@ function main(teams) {
       var color = rgba(game.team.color, alpha);
       gameg.select("path").style("fill", color);
 
+      var x,y;
       if (spots.hasOwnProperty(par.gid)) {
-        var x = spots[par.gid][0];
-        var y = spots[par.gid][1];
+        x = spots[par.gid][0];
+        y = spots[par.gid][1];
       } else {
         var bb = gameg.node().getBBox();
-        var x = bb.x + bb.width/2;
-        var y = bb.y + bb.height/2;
+        x = bb.x + bb.width/2;
+        y = bb.y + bb.height/2;
       }
 
       var pct = (game.team[sr] * 100);
@@ -216,7 +217,7 @@ function main(teams) {
           .attr("text-anchor", "middle")
           .attr("x", x)
           .attr("y", y);
-      var par = par.parent;
+      par = par.parent;
     }
   }
 
@@ -224,7 +225,7 @@ function main(teams) {
     RGBaster.colors("logos/"+game.team.name+".png", function(payload) {
       var colors = payload.dominant.match(/(\d{1,3}),(\d{1,3}),(\d{1,3})/);
 
-      game.team.color = [colors[1], colors[2], colors[3]],
+      game.team.color = [colors[1], colors[2], colors[3]];
 
       fillpath(game);
     });
@@ -288,18 +289,22 @@ function main(teams) {
     .attr("width", logoheight)
     .attr("height", logoheight);
 
+  function clipurl(d)  { return "url(#text-clip-game"+d.gid+")"; }
+  function logoname(d) { return "logos/"+d.team.name+".png"; }
+  function logoid(d)   { return "logo" + d.gid; }
+
   for (var i=1; i < 127; i++) {
     var game = d3.select("#game" + i).datum();
     if (game.team && game.team["round" + game.round] == 1) {
       var gid = game.parent.gid;
       var wingame = d3.select("#game" + gid);
-      wingame.datum().team = game.team
+      wingame.datum().team = game.team;
       wingame.append('g')
         .attr("class", "logo")
-        .attr("clip-path", function(d) { return "url(#text-clip-game"+d.gid+")"; })
-        .attr("id", function(d) { return "logo" + d.gid; })
+        .attr("clip-path", clipurl)
+        .attr("id", logoid)
       .append("image")
-        .attr("xlink:href", function(d) { return "logos/"+d.team.name+".png"; })
+        .attr("xlink:href", logoname)
         .attr("transform", logo)
         .attr("width", logoheight)
         .attr("height", logoheight);
@@ -309,4 +314,4 @@ function main(teams) {
 
 queue()
   .defer(d3.json, 'teams.json')
-  .await(function(err, teams) { main(teams); })
+  .await(function(err, teams) { main(teams); });
