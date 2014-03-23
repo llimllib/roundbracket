@@ -311,7 +311,8 @@ function main(teams) {
     }
   }
 
-  var arcmaker = d3.svg.arc().innerRadius(radius + 20).outerRadius(radius + 20);
+  var nradius = radius + 30;
+  var arcmaker = d3.svg.arc().innerRadius(nradius).outerRadius(nradius);
   var regionarcs = [
     {region: "West", startAngle: 0, endAngle: Math.PI/2},
     {region: "Midwest", startAngle: Math.PI/2, endAngle: Math.PI},
@@ -323,21 +324,27 @@ function main(teams) {
     .append("g")
       .attr("id", "namearcs");
 
-  namearcs.selectAll("path")
+  var namearc = namearcs.selectAll("g")
     .data(regionarcs)
     .enter()
-    .append("path")
+    .append("g")
+      .attr("class", "namearc");
+
+  namearc.append("defs").append("path")
       .attr("d", arcmaker)
       .attr("id", function(d) { return "regionpath-" + d.region; })
       .attr("class", "regionpath")
-      .attr("style", "display:none");
+      //.attr("style", "display:none");
 
-  namearcs.append("text")
+  namearc.append("text")
     .append("textPath")
       .attr("text-anchor", "middle")
       .attr("startOffset", "25%")
-      .attr("xlink:href","#regionpath-Midwest")
-      .text("West")
+      .attr("xlink:href", function(d) { return "#regionpath-" + d.region; })
+      .style("fill", "#888")
+      .style("font-weight", "bold")
+      .style("font-size", "20px")
+      .text(function(d) { return d.region; });
 }
 
 queue()
