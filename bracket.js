@@ -316,17 +316,18 @@ function main(teams) {
     {region: "West", startAngle: 0, endAngle: Math.PI/2},
     {region: "Midwest", startAngle: Math.PI/2, endAngle: Math.PI},
     {region: "East", startAngle: Math.PI, endAngle: 3*Math.PI/2},
-    {region: "South", startAngle: 3*Math.PI/2, endAngle: 0}
+    {region: "South", startAngle: 3*Math.PI/2, endAngle: 2*Math.PI}
   ];
 
   var namearcs = d3.select("#center")
     .append("g")
       .attr("id", "namearcs");
 
-  namearcs.data(regionarcs)
+  namearcs.selectAll("path")
+    .data(regionarcs)
     .enter()
     .append("path")
-      .attr("d", arcmaker)
+      .attr("d", function(d) { console.log("entering", d); return arcmaker(d); })
       .attr("id", function(d) { return d.region; })
 }
 
