@@ -268,6 +268,7 @@ function main(teams) {
   var multipliers = {
     4: 1.03,
     5: 1.15,
+    6: 1.4,
   }
 
   function logo(d) {
