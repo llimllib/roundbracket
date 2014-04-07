@@ -274,13 +274,15 @@ function main(teams) {
 
   function logo(d) {
       var bb = d3.select("#game"+d.gid+" path").node().getBBox();
-      var x = bb.x + bb.width/2 - logoheight/2;
-      var y = bb.y + bb.height/2 - logoheight/2;
+      var x = bb.x + bb.width/2;
+      var y = bb.y + bb.height/2;
       if (multipliers.hasOwnProperty(d.round)) {
         var m = multipliers[d.round];
         x *= m;
         y *= m;
       }
+      x -= logoheight/2;
+      y -= logoheight/2;
       return trans(x, y);
   }
 
