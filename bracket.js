@@ -160,7 +160,7 @@ function main(teams) {
     brightness /= alpha;
 
     if (brightness > 125 || alpha < 0.15) {
-      return "#000"; //black
+      return "#333"; //black
     }
     return "#FFF"; //white
   }
@@ -219,6 +219,16 @@ function main(teams) {
           .attr("y", y);
       par = par.parent;
     }
+
+    var teamcolor = calcTextcolor(game.team.color, alpha);
+    d3.select("#center")
+      .append("text")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("text-anchor", "middle")
+      .style("fill", teamcolor)
+      .attr("id", "teamname")
+      .text(game.team.name);
   }
 
   function getLogoColors(game) {
@@ -241,15 +251,6 @@ function main(teams) {
     } else {
       fillpath(game);
     }
-
-    d3.select("#center")
-      .append("text")
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("text-anchor", "middle")
-      .style("fill", "#666")
-      .attr("id", "teamname")
-      .text(game.team.name);
   }
 
   function clear(team) {
