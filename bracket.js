@@ -226,9 +226,11 @@ function main(teams) {
       .attr("x", 0)
       .attr("y", 0)
       .attr("text-anchor", "middle")
-      .style("fill", teamcolor)
+      .style("fill", "#666")
       .attr("id", "teamname")
       .text(game.team.name);
+
+    d3.selectAll("#game127 .logo").style("opacity", "0.1");
   }
 
   function getLogoColors(game) {
@@ -257,6 +259,7 @@ function main(teams) {
     d3.selectAll(".arc path").style("fill", "#fff");
     d3.selectAll(".pcttext").remove();
     d3.selectAll("#teamname").remove();
+    d3.selectAll("#game127 .logo").style("opacity", "1");
   }
 
   arcs.on('mouseenter', function(d) { clear(d); hover(d); })
@@ -307,7 +310,7 @@ function main(teams) {
   function logoname(d) { return "logos/"+d.team.name+".png"; }
   function logoid(d)   { return "logo" + d.gid; }
 
-  for (var i=1; i < 127; i++) {
+  for (var i=1; i < 128; i++) {
     var game = d3.select("#game" + i).datum();
     if (game.team && game.team["round" + game.round] == 1) {
       var gid = game.parent.gid;
