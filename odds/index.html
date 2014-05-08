@@ -1,0 +1,50 @@
+<html><head><title>Radial Bracket</title>
+<style>
+path {
+  stroke-width: 0.15;
+  fill: white;
+  stroke: #666;
+}
+</style>
+</head>
+<body>
+<div class="container_16 main">
+  <div class="grid_3">
+    <a href="http://billmill.org"><img src="http://billmill.org/images/logo.png" width="136" height="94"></a>
+  </div>
+  <div class="clear"></div>
+
+  <div class="grid_15 prefix_1">
+    <div id="bracket">
+    </div>
+  </div>
+
+  <div class="clear"></div>
+  <div class="grid_16 footer">
+    <p><span>This is a radial bracket, showing the likelihood of a given team reaching each round, as calculated by <a href="http://fivethirtyeight.com/interactives/march-madness-predictions/">Nate Silver</a></p>
+    <br><span class="github">source available <a href="https://github.com/llimllib/roundbracket">on github</a></span>
+  </div>
+</div>
+<link rel="stylesheet" href="http://billmill.org/css/960css/reset.css" />
+<link rel="stylesheet" href="http://billmill.org/css/960css/960.css" />
+<link rel="stylesheet" href="http://billmill.org/css/style.css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="rgbaster.js"></script>
+<script src="bracket.js"></script>
+</body>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4514581-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</html>
