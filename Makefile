@@ -1,5 +1,5 @@
 serve:
-	python -m SimpleHTTPServer
+	python -m SimpleHTTPServer 4567
 
 push:
 	git push
