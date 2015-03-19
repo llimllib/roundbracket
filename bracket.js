@@ -244,14 +244,42 @@ function main(teams) {
   }
 
   function hover(game) {
-    if (!game.team) { return; }
+    var highlightGame;
+    
+    if (!game.team) {
+      // fill in the most likely to get here
+      var flattenedTeams = _.chain([teams.east, teams.west, teams.midwest, teams.south])
+        .map(function(teamsInRegion) {
+          return _.values(teamsInRegion)
+        })
+        .flatten()
+        .value();
 
+      var reachTeams = function(game) {
+        var children = game.children;
+        var team = game.team;
+        if (team === undefined) {
+          return reachTeams(children[0]).concat(reachTeams(children[1]));
+        } else {
+          return [game];
+        }
+      }
+      var reachableTeams = _.flatten(reachTeams(game));
+      var bestBet = _.max(reachableTeams, function(game) {
+        return game.team["round" + game.round]
+      });
+      
+      highlightGame = bestBet;
+    } else {
+      highlightGame = game;
+    }
+    
     // If we don't yet know the team's color, parse the logo and save it.
     // Else, just fill the path with the cached value
-    if (game.team.color === undefined) {
-      getLogoColors(game);
+    if (highlightGame.team.color === undefined) {
+      getLogoColors(highlightGame);
     } else {
-      fillpath(game);
+      fillpath(highlightGame);
     }
   }
 
