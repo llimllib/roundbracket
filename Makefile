@@ -11,6 +11,7 @@ push:
 update:
 	python dl.py
 	python prep.py
+	make push
 
 lint:
 	jshint bracket.js
