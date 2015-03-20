@@ -263,8 +263,8 @@ function main(teams) {
     }
     var reachableTeams = _.flatten(reachTeams(game));
 
-    return _.max(reachableTeams, function(game) {
-      return game.team["round" + game.round]
+    return _.max(reachableTeams, function(t) {
+      return t.team["round" + game.round];
     });
   }
 
