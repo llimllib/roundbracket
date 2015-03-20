@@ -11,6 +11,7 @@ push:
 update:
 	python dl.py
 	python prep.py
+	git commit -m "updating data" teams.json natesilver.tsv
 	make push
 
 lint:
