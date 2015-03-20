@@ -8,8 +8,6 @@ You can see the full 2013 NCAA tournament bracket at
 or see the interactive odds it diesplayed during the tournament
 at [http://billmill.org/roundbracket/odds/](http://billmill.org/roundbracket/odds/).
 
---
-
 ## Contributors
 
-* [@fsalum](https://github.com/fsalum)
+* [@sephlietz](https://github.com/sephlietz)
