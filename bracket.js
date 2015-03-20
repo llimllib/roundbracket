@@ -263,8 +263,9 @@ function main(teams) {
     }
     var reachableTeams = _.flatten(reachTeams(game));
 
-    return _.max(reachableTeams, function(game) {
-      return game.team["round" + game.round]
+    var round = game.round == 7 ? 6 : game.round;
+    return _.max(reachableTeams, function(t) {
+      return t.team["round" + round];
     });
   }
 
