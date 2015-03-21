@@ -243,30 +243,20 @@ function main(teams) {
     });
   }
 
-  function getBestBet(game) {
-    // fill in the most likely to get here
-    var flattenedTeams = _.chain([teams.east, teams.west, teams.midwest, teams.south])
-      .map(function(teamsInRegion) {
-        return _.values(teamsInRegion)
-      })
-      .flatten()
-      .value();
-
-    var reachTeams = function(game) {
-      var children = game.children;
-      var team = game.team;
-      if (team === undefined) {
-        return reachTeams(children[0]).concat(reachTeams(children[1]));
-      } else {
-        return [game];
-      }
+  function getLeaves(game, leaves) {
+    if(leaves===undefined) { leaves=[]; }
+    for (g in game.children) {
+      if (game.children[g].team !== undefined) { leaves.push(game.children[g]); }
+      else { getLeaves(game.children[g], leaves) }
     }
-    var reachableTeams = _.flatten(reachTeams(game));
+    return leaves;
+  }
 
-    var round = game.round == 7 ? 6 : game.round;
-    return _.max(reachableTeams, function(t) {
-      return t.team["round" + round];
-    });
+  function getBestBet(game) {
+    var teams = getLeaves(game);
+    var probs = $.map(teams, function(team) { return team.team["round" + (game.round-1)]; });
+    var idx = probs.indexOf(Math.max.apply(null, probs));
+    return teams[idx];
   }
 
   function hover(game) {
