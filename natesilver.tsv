@@ -16,7 +16,7 @@ team_id	team_name	team_seed	team_region	playin_flag	team_alive	rd1_win	rd2_win	r
 84	Indiana	10	Midwest	0	0	1	0	0	0	0	0	0	--	2015-04-04 23:17:00.050000
 2305	Kansas	2	Midwest	0	0	1	1	0	0	0	0	0	--	2015-04-04 23:17:00.050000
 166	New Mexico State	15	Midwest	0	0	1	0	0	0	0	0	0	--	2015-04-04 23:17:00.050000
-275	Wisconsin	1	West	0	1	1	1	1	1	1	1	0.530650848481	0.884478283343	2015-04-04 23:17:00.050000
+275	Wisconsin	1	West	0	1	1	1	1	1	1	1	0	0.884478283343	2015-04-04 23:17:00.050000
 324	Coastal Carolina	16	West	0	0	1	0	0	0	0	0	0	--	2015-04-04 23:17:00.050000
 2483	Oregon	8	West	0	0	1	1	0	0	0	0	0	--	2015-04-04 23:17:00.050000
 197	Oklahoma State	9	West	0	0	1	0	0	0	0	0	0	--	2015-04-04 23:17:00.050000
@@ -33,7 +33,7 @@ team_id	team_name	team_seed	team_region	playin_flag	team_alive	rd1_win	rd2_win	r
 194	Ohio State	10	West	0	0	1	1	0	0	0	0	0	--	2015-04-04 23:17:00.050000
 12	Arizona	2	West	0	0	1	1	1	1	0	0	0	--	2015-04-04 23:17:00.050000
 2640	Texas Southern	15	West	0	0	1	0	0	0	0	0	0	--	2015-04-04 23:17:00.050000
-150	Duke	1	South	0	1	1	1	1	1	1	1	0.469349151519	1.13061000912	2015-04-04 23:17:00.050000
+150	Duke	1	South	0	1	1	1	1	1	1	1	1	1.13061000912	2015-04-04 23:17:00.050000
 2454	North Florida	16a	South	1	0	0	0	0	0	0	0	0	--	2015-04-04 23:17:00.050000
 2523	Robert Morris	16b	South	1	0	1	0	0	0	0	0	0	--	2015-04-04 23:17:00.050000
 21	San Diego State	8	South	0	0	1	1	0	0	0	0	0	--	2015-04-04 23:17:00.050000
