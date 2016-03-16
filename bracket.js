@@ -4,7 +4,7 @@ function buildtree(teams) {
 
   var root = {
     gid: gid--,
-    region: "south-east-west-midwest",
+    region: "south-west-east-midwest",
     round: round--,
     children: [],
   };
@@ -24,16 +24,16 @@ function buildtree(teams) {
         (gid == 113 || gid == 114 || gid == 121)) { return "south"; }
     if ((gid >= 17 && gid <= 32) || (gid >= 73 && gid <= 80) ||
         (gid >= 101 && gid <= 104) ||
-        (gid == 115 || gid == 116 || gid == 122)) { return "east"; }
+        (gid == 115 || gid == 116 || gid == 122)) { return "west"; }
     if ((gid >= 33 && gid <= 48) || (gid >= 81 && gid <= 88) ||
         (gid >= 105 && gid <= 108) ||
         (gid == 117 || gid == 118 || gid == 123)) { return "midwest"; }
     if ((gid >= 49 && gid <= 64) || (gid >= 89 && gid <= 96) ||
         (gid >= 109 && gid <= 112) ||
-        (gid == 119 || gid == 120 || gid == 124)) { return "west"; }
-    if (gid == 125) { return "south-east"; }
-    if (gid == 126) { return "west-midwest"; }
-    if (gid == 127) { return "south-east-west-midwest"; }
+        (gid == 119 || gid == 120 || gid == 124)) { return "east"; }
+    if (gid == 125) { return "south-west"; }
+    if (gid == 126) { return "east-midwest"; }
+    if (gid == 127) { return "south-west-east-midwest"; }
 
     // raise an error if we fall through
     throw new Error("undefined region for gid " + gid);
@@ -70,7 +70,7 @@ function buildtree(teams) {
            '6', '11', '3', '14', '7', '10', '2', '15'];
   var l_to_r = ["15", "2", "10", "7", "14", "3", "11", "6",
            "13", "4", "12", "5", "9", "8", "16", "1"];
-  var regions = ["south", "east", "midwest", "west"];
+  var regions = ["south", "west", "midwest", "east"];
 
   function findgame(gid) {
     var found;
@@ -90,7 +90,7 @@ function buildtree(teams) {
   var gid = 1;
   $.each(regions, function(i, region) {
     var order;
-    if (region == "south" || region == "east") { order = r_to_l; }
+    if (region == "south" || region == "west") { order = r_to_l; }
     else                                       { order = l_to_r; }
 
     $.each(order, function(j, seed) {
@@ -357,9 +357,9 @@ function main(teams) {
   var nradius = radius + 30;
   var arcmaker = d3.svg.arc().innerRadius(nradius).outerRadius(nradius);
   var regionarcs = [
-    {region: "West", startAngle: 0, endAngle: Math.PI/2},
+    {region: "East", startAngle: 0, endAngle: Math.PI/2},
     {region: "Midwest", startAngle: Math.PI/2, endAngle: Math.PI},
-    {region: "East", startAngle: Math.PI, endAngle: 3*Math.PI/2},
+    {region: "West", startAngle: Math.PI, endAngle: 3*Math.PI/2},
     {region: "South", startAngle: 3*Math.PI/2, endAngle: 2*Math.PI}
   ];
 
