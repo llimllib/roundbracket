@@ -79,6 +79,9 @@ with open("natesilver.csv") as ns:
     rows = csv.reader(ns)
     header = next(rows)
     for row in rows:
+        # skip women's tourney data
+        if row[0] != "mens": continue
+
         teamdata = dict(zip(header, row))
         teamdata["team"] = natesilver_names.get(teamdata["team_name"], teamdata["team_name"])
         if teamdata["team"] not in kenpom:
