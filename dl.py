@@ -5,4 +5,4 @@ def sh(cmd):
     print(cmd)
     os.system(cmd)
 
-sh("wget http://projects.fivethirtyeight.com/march-madness-api/2016/fivethirtyeight_ncaa_forecasts.csv -O natesilver.csv")
+sh("wget http://projects.fivethirtyeight.com/march-madness-api/2017/fivethirtyeight_ncaa_forecasts.csv -O natesilver.csv")

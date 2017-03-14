@@ -3,14 +3,14 @@
 import json, csv
 
 kenpom = {}
-with open("kenpom_2016.csv") as kp:
+with open("kenpom_2017.csv") as kp:
     rows = csv.reader(kp)
     header = next(rows)
     for row in rows:
         teamdata = dict(zip(header, row))
         kenpom[teamdata["TeamName"]] = {
             "name": teamdata["TeamName"],
-            "rating": float(teamdata["Pythag"])
+            "adjEM": float(teamdata["AdjEM"])
         }
 
 kenpom_names = {
@@ -40,7 +40,6 @@ natesilver_names = {
     "Massachusetts": "UMass",
     "North Dakota State": "North Dakota St.",
     "New Mexico State": "New Mexico St.",
-    "North Carolina Central": "NC Central",
     "Louisiana-Lafayette": "Louisiana Lafayette",
     "American University": "American",
     "Weber State": "Weber St.",
@@ -72,6 +71,11 @@ natesilver_names = {
     "Pennsylvania": "Penn",
     "Missouri State": "Missouri St.",
     "Alabama State": "Alabama St.",
+    "Saint Mary's (CA)": "Saint Mary's",
+    "Kent State": "Kent St.",
+    "Jacksonville State": "Jacksonville St.",
+    "East Tennessee State": "East Tennessee St.",
+    "UC-Davis": "UC Davis",
 }
 
 natesilver = {}
@@ -101,7 +105,7 @@ def maketeam(name, seed):
     team["round6"] = natesilver[name]["rd7_win"]
     return team
 
-bracket = json.loads(open("bracket.json").read())
+bracket = json.loads(open("bracket2017.json").read())
 for region, teams in bracket.items():
     combined[region] = {}
     for seed, team in teams.items():
@@ -111,7 +115,7 @@ for region, teams in bracket.items():
                 assert t in kenpom, "{} not in kenpom".format(t)
                 assert t in natesilver, "{} not in natesilver".format(t)
             # for now, ignore the first four... pick the higher ranked team to win
-            if kenpom[team[0]]["rating"] > kenpom[team[1]]["rating"]:
+            if kenpom[team[0]]["adjEM"] > kenpom[team[1]]["adjEM"]:
                 combined[region][seed] = maketeam(team[0], seed)
             else:
                 combined[region][seed] = maketeam(team[1], seed)
